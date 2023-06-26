@@ -1,0 +1,10 @@
+@import "../../../styles/utils/mixins";
+
+.header {
+  padding: 2rem 5rem;
+  @include flex(row, center, space-between);
+}
+
+.icon {
+  cursor: pointer;
+}
