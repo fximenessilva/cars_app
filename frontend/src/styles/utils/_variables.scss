@@ -1,6 +1,15 @@
-$colors: (
-  white-color: #fff,
-  black-color: #000,
+$colors-dark: (
+  primary: #e7ecef,
+  background-primary: #333333,
+  secondary: #18ff6d,
+  tertiary: #72a276,
+);
+
+$colors-light: (
+  primary: #333333,
+  background-primary: #e7ecef,
+  secondary: #138a36,
+  tertiary: #007ea7,
 );
 
 $fonts: ();

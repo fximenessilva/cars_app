@@ -24,7 +24,9 @@
       "@ioc/*": ["./ioc/*"],
       "@pages/*": ["./pages/*"],
       "@utils/*": ["./utils/*"],
-      "@styles/*": ["./styles/*"]
+      "@styles/*": ["./styles/*"],
+      "@data/*": ["./data/*"],
+      "@contexts/*": ["./contexts/*"]
     },
     "typeRoots": ["node_modules/@types", "./types"]
   },
