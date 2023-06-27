@@ -1,15 +1,23 @@
 import { useAppContext } from "@contexts/AppContext";
 import { Link } from "react-router-dom";
 
+import useScrollDirection from "@hooks/useScrollDirection";
+
 import { THEME_NAMESPACE, ROUTES_LINKS } from "@utils/constants";
 import styles from "./header.module.scss";
 
 const Header = () => {
   const { darkMode, setDarkMode } = useAppContext();
 
-  const iconClassName = `fa-solid fa-toggle-${darkMode ? "on" : "off"} ${
+  const toggleClassName = `fa-solid fa-toggle-${darkMode ? "on" : "off"} ${
     styles.icon
   }`;
+
+  const scrollDirection = useScrollDirection();
+
+  const headerClassName = `${styles.header} ${
+    styles[darkMode ? "dark" : "light"]
+  } ${scrollDirection === "down" ? styles.hidden : ""}`;
 
   const toggleHandler = () => {
     setDarkMode((prevState) => {
@@ -19,7 +27,7 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={headerClassName}>
       <Link to="/">
         <h1 className="title">AutoConnect</h1>
       </Link>
@@ -30,7 +38,10 @@ const Header = () => {
           </Link>
         ))}
       </nav>
-      <i onClick={toggleHandler} className={iconClassName} />
+      <div className={styles["icons-wrapper"]} onClick={toggleHandler}>
+        <i className={`fa-solid fa-${darkMode ? "moon" : "sun"}`} />
+        <i className={toggleClassName} />
+      </div>
     </header>
   );
 };
