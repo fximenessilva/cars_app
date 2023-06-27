@@ -1,0 +1,7 @@
+@import "../../styles/utils/mixins";
+@import "../../styles/utils/variables";
+
+.wrapper {
+  @include flex(column);
+  margin: 3rem 0;
+}

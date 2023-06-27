@@ -1,0 +1,12 @@
+{
+  "coches": [
+    { "id": 1, "nombre": "Ateca", "marca": "SEAT" },
+    { "id": 2, "nombre": "Formentor", "marca": "Cupra" },
+    { "id": 3, "nombre": "Arteon", "marca": "VW" },
+    { "id": 4, "nombre": "Arteon", "marca": "VW" },
+    { "id": 5, "nombre": "Arteon", "marca": "VW" },
+    { "id": 6, "nombre": "Arteon", "marca": "VW" },
+    { "id": 7, "nombre": "Arteon", "marca": "VW" },
+    { "id": 8, "nombre": "Arteon", "marca": "VW" }
+  ]
+}
