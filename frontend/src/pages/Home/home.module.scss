@@ -6,7 +6,7 @@
   min-height: 80vh;
   width: 100%;
   gap: 20px;
-  padding: 0 0 3rem;
+  padding: 2rem 0 3rem;
 }
 
 .block {
@@ -48,4 +48,21 @@
 
 .active {
   width: 70%;
+}
+@media screen and (max-width: 900px) {
+  .wrapper {
+    @include flex(column);
+    min-height: unset;
+  }
+  .block {
+    height: 15rem;
+    width: 100%;
+  }
+
+  .icon {
+    font-size: 6rem;
+  }
+  .active {
+    height: 20rem;
+  }
 }
