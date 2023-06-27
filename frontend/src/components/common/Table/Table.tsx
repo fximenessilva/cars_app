@@ -6,9 +6,11 @@ import styles from "./table.module.scss";
 interface TableProps {
   columns: string[];
   data: {
-    name: string;
-    email: string;
-    coches_favoritos: string[];
+    name?: string;
+    email?: string;
+    nombre?: string;
+    marca?: string;
+    coches_favoritos?: string[];
     [key: string]: any;
   }[];
 }
