@@ -1,10 +1,58 @@
 @import "../../../styles/utils/mixins";
+@import "../../../styles/utils/variables";
 
 .header {
   padding: 2rem 5rem;
   @include flex(row, center, space-between);
+  border-bottom: 1px solid;
+  position: fixed;
+  transition: 0.3s;
+  width: calc(100% - 10rem);
+  top: 0;
+}
+
+.dark {
+  border-color: map-get($colors-dark, primary-low-op);
+  background-color: map-get($colors-light, primary);
+}
+.light {
+  border-color: map-get($colors-light, primary-low-op);
+  background-color: map-get($colors-dark, primary);
+}
+
+.hidden {
+  top: -100px;
+  transition: 0.3s;
 }
 
 .icon {
   cursor: pointer;
+}
+
+.link {
+  font-size: 20px;
+}
+
+.nav {
+  gap: 3rem;
+  margin-right: 5rem;
+}
+
+.icons-wrapper {
+  @include flex(row);
+  gap: 0.5rem;
+  :global {
+    .fa-moon {
+      color: map-get($colors-light, tertiary-variant-1);
+    }
+    .fa-sun {
+      color: map-get($colors-dark, tertiary-variant-2);
+    }
+  }
+}
+@media screen and (max-width: 900px) {
+  .header {
+    padding: 1.5rem 3rem;
+    width: calc(100% - 5rem);
+  }
 }

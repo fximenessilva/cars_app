@@ -1,4 +1,5 @@
 @import "./utils/variables";
+@import "./utils/mixins";
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 
@@ -48,6 +49,16 @@ p {
 
 a {
   text-decoration: none;
+}
+
+.container {
+  padding-top: 110px;
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+.title {
+  letter-spacing: 0.6px;
 }
 
 .dark-mode {
@@ -130,4 +141,17 @@ a {
 
 .animated-link:hover::before {
   width: 100%;
+}
+
+nav {
+  @include flex(row, center, center);
+  gap: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    padding-top: 80px;
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
 }

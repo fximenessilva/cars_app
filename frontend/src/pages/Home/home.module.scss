@@ -1,0 +1,68 @@
+@import "../../styles/utils/mixins";
+@import "../../styles/utils/variables";
+
+.wrapper {
+  @include flex(row);
+  min-height: 80vh;
+  width: 100%;
+  gap: 20px;
+  padding: 2rem 0 3rem;
+}
+
+.block {
+  @include flex(row, center, center);
+  font-size: 36px;
+  width: 50%;
+  line-height: 43px;
+  font-weight: 700;
+  transition: all 0.5s ease-out !important;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.dark {
+  .block:first-child {
+    background-color: map-get($colors-dark, tertiary-variant-3);
+    color: map-get($colors-dark, primary);
+  }
+  .block:nth-child(2) {
+    background-color: map-get($colors-dark, tertiary-variant-2);
+    color: map-get($colors-dark, primary);
+  }
+}
+
+.light {
+  .block:first-child {
+    background-color: map-get($colors-light, tertiary-variant-3);
+    color: map-get($colors-light, primary);
+  }
+  .block:nth-child(2) {
+    background-color: map-get($colors-light, tertiary-variant-1);
+    color: map-get($colors-light, primary);
+  }
+}
+
+.icon {
+  font-size: 12rem;
+}
+
+.active {
+  width: 70%;
+}
+@media screen and (max-width: 900px) {
+  .wrapper {
+    @include flex(column);
+    min-height: unset;
+  }
+  .block {
+    height: 15rem;
+    width: 100%;
+  }
+
+  .icon {
+    font-size: 6rem;
+  }
+  .active {
+    height: 20rem;
+  }
+}

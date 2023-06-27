@@ -1,30 +1,22 @@
 import { Link } from "react-router-dom";
 
+import { useAppContext } from "@contexts/AppContext";
 import styles from "./footer.module.scss";
 
-const iconsList = [
-  {
-    href: "https://www.facebook.com/",
-    className: "fa-brands fa-facebook",
-  },
-  {
-    href: "https://www.instagram.com/",
-    className: "fa-brands fa-instagram",
-  },
-  { href: "https://twitter.com/", className: "fa-brands fa-twitter" },
-];
+import { FOOTER_ICONS_LIST, ROUTES_LINKS } from "@utils/constants";
 
-const routesLink = [
-  { page: "Cars", href: "/cars" },
-  { page: "Users", href: "/users" },
-];
+const CURRENT_YEAR = new Date().getFullYear();
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const { darkMode } = useAppContext();
   return (
-    <footer className={styles.footer}>
+    <footer
+      className={`${styles.footer} container ${
+        styles[darkMode ? "dark" : "light"]
+      }`}
+    >
       <ul className={styles.icons}>
-        {iconsList.map(({ href, className }) => (
+        {FOOTER_ICONS_LIST.map(({ href, className }) => (
           <li key={href}>
             <Link target="_blank" rel="noopener noreferrer" to={href}>
               <i className={className} />
@@ -33,14 +25,14 @@ const Footer = () => {
         ))}
       </ul>
       <nav className={styles.nav}>
-        {routesLink.map(({ page, href }) => (
+        {ROUTES_LINKS.map(({ page, href }) => (
           <Link className="animated-link" to={href} key={page}>
             {page}
           </Link>
         ))}
       </nav>
       <div className={styles["last-row"]}>
-        © 2014-{currentYear} Akkodis, Ltd. All rights reserved.
+        © 1984-{CURRENT_YEAR} Akkodis, Ltd. All rights reserved.
       </div>
     </footer>
   );
