@@ -21,9 +21,9 @@ const Home = () => {
           const isActive = hover === page;
           return (
             <Link
-              key={page}
+              key={page.toLowerCase()}
               className={`${styles.block} ${isActive ? styles.active : ""}`}
-              to={page}
+              to={page.toLowerCase()}
               onMouseEnter={() => setHover(page)}
               onMouseLeave={() => setHover("mid")}
             >
