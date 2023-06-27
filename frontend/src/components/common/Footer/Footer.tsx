@@ -2,29 +2,14 @@ import { Link } from "react-router-dom";
 
 import styles from "./footer.module.scss";
 
-const iconsList = [
-  {
-    href: "https://www.facebook.com/",
-    className: "fa-brands fa-facebook",
-  },
-  {
-    href: "https://www.instagram.com/",
-    className: "fa-brands fa-instagram",
-  },
-  { href: "https://twitter.com/", className: "fa-brands fa-twitter" },
-];
-
-const routesLink = [
-  { page: "Cars", href: "/cars" },
-  { page: "Users", href: "/users" },
-];
+import { FOOTER_ICONS_LIST, ROUTES_LINKS } from "@utils/constants";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className={styles.footer}>
+    <footer className={`${styles.footer} container`}>
       <ul className={styles.icons}>
-        {iconsList.map(({ href, className }) => (
+        {FOOTER_ICONS_LIST.map(({ href, className }) => (
           <li key={href}>
             <Link target="_blank" rel="noopener noreferrer" to={href}>
               <i className={className} />
@@ -33,7 +18,7 @@ const Footer = () => {
         ))}
       </ul>
       <nav className={styles.nav}>
-        {routesLink.map(({ page, href }) => (
+        {ROUTES_LINKS.map(({ page, href }) => (
           <Link className="animated-link" to={href} key={page}>
             {page}
           </Link>

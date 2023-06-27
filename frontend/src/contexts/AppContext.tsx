@@ -4,13 +4,16 @@ import {
   SetStateAction,
   useContext,
   useEffect,
+  FC,
+  ReactNode,
+  Dispatch,
 } from "react";
 
 import { THEME_NAMESPACE } from "@utils/constants";
 
 export const AppContext = createContext<{
   darkMode: boolean;
-  setDarkMode: React.Dispatch<SetStateAction<boolean>>;
+  setDarkMode: Dispatch<SetStateAction<boolean>>;
 }>({
   darkMode: false,
   setDarkMode: () => {},
@@ -18,7 +21,7 @@ export const AppContext = createContext<{
 const THEME_SELECTED = localStorage.getItem(THEME_NAMESPACE);
 const DARK_MODE_INITIAL_VALUE = THEME_SELECTED === "true";
 
-const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(DARK_MODE_INITIAL_VALUE);
 
   useEffect(() => {

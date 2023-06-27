@@ -1,7 +1,7 @@
 import { useAppContext } from "@contexts/AppContext";
 import { Link } from "react-router-dom";
 
-import { THEME_NAMESPACE } from "@utils/constants";
+import { THEME_NAMESPACE, ROUTES_LINKS } from "@utils/constants";
 import styles from "./header.module.scss";
 
 const Header = () => {
@@ -23,6 +23,13 @@ const Header = () => {
       <Link to="/">
         <h1 className="title">AutoConnect</h1>
       </Link>
+      <nav className={styles.nav}>
+        {ROUTES_LINKS.map(({ page, href }) => (
+          <Link className={`animated-link ${styles.link}`} to={href} key={page}>
+            {page}
+          </Link>
+        ))}
+      </nav>
       <i onClick={toggleHandler} className={iconClassName} />
     </header>
   );
