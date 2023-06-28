@@ -9,6 +9,10 @@ interface InputProps {
   className?: string;
   search?: boolean;
   value?: string | number;
+  label?: string;
+  error?: string;
+  name?: string;
+  variant: "form" | "searchbar";
 }
 const TextInput: FC<InputProps> = ({
   type = "text",
@@ -17,17 +21,26 @@ const TextInput: FC<InputProps> = ({
   className,
   search,
   value,
+  label,
+  error,
+  name,
+  variant = "searchbar",
 }) => {
   return (
-    <input
-      className={`${styles.input} ${className} txt-input ${
-        search ? styles.search : ""
-      }`}
-      type={type}
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-    />
+    <div className={`${styles.wrapper} ${styles[`${variant}-variant`]}`}>
+      {label && <label className={styles.label}>{label}</label>}
+      <input
+        className={`${styles.input} ${className} txt-input ${
+          search ? styles.search : ""
+        }`}
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
+      />
+      {error && <span className={styles.error}>{error}</span>}
+    </div>
   );
 };
 

@@ -16,8 +16,8 @@ import dataCars from "@data/cars.json";
 
 interface Car {
   id: number;
-  nombre: string;
-  marca: string;
+  name: string;
+  brand: string;
 }
 
 interface CarsState {

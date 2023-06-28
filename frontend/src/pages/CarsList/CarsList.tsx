@@ -1,16 +1,23 @@
-import { useState, lazy, useMemo, ChangeEvent } from "react";
+import { useState, lazy, useMemo, ChangeEvent, FC } from "react";
 
+import { NAMESPACES } from "@utils/constants";
+import { setter, getter } from "@utils/localStorageHelpers";
 import { useCarsContext } from "@contexts/CarsContext";
-import Table from "@components/common/Table";
+import { useAppContext } from "@contexts/AppContext";
+import List from "@components/common/List";
 import PageHead from "@components/common/PageHead";
 import styles from "./carsList.module.scss";
 
-const NotFoundData = lazy(() => import("@components/common/NotFoundData"));
-const Modal = lazy(() => import("@components/common/Modal"));
+const FormModal = lazy(() => import("@components/common/Modal/FormModal"));
+const CarsForm = lazy(() =>
+  import("@components/common/Form").then((module) => ({
+    default: module.CarsForm,
+  }))
+);
 
 interface Car {
   id: number;
-  marca: string;
+  brand: string;
 }
 
 const ALL_OPTIONS = "all options";
@@ -18,39 +25,42 @@ const ALL_OPTIONS = "all options";
 const CarsList = () => {
   const [open, setOpen] = useState(false);
 
+  const { darkMode } = useAppContext();
   const { state, dispatch } = useCarsContext();
 
   const { cars, searchTerm = "", activeFilter = "" } = state;
 
+  const theme = darkMode ? "dark" : "light";
+
   const removeDuplicatesSortCallback = (
-    a: { marca: string },
-    b: { marca: string }
+    a: { brand: string },
+    b: { brand: string }
   ) => {
-    const labelA = a.marca.toUpperCase();
-    const labelB = b.marca.toUpperCase();
+    const labelA = a.brand.toUpperCase();
+    const labelB = b.brand.toUpperCase();
 
     return labelA.localeCompare(labelB);
   };
 
   const removeDuplicatesMapCallback = ({
     id,
-    marca,
+    brand,
   }: {
     id: number;
-    marca: string;
+    brand: string;
   }) => ({
     value: id,
-    label: marca,
+    label: brand,
   });
 
   const removeDuplicatesByBrand = (
     array: Car[]
   ): { value: number; label: string }[] => {
-    const uniqueMarcas: string[] = [];
+    const uniquebrands: string[] = [];
     return array
       .filter((obj) => {
-        if (!uniqueMarcas.includes(obj.marca)) {
-          uniqueMarcas.push(obj.marca);
+        if (!uniquebrands.includes(obj.brand)) {
+          uniquebrands.push(obj.brand);
           return true;
         }
         return false;
@@ -59,7 +69,7 @@ const CarsList = () => {
       .map(removeDuplicatesMapCallback);
   };
 
-  const carBrands = removeDuplicatesByBrand(cars);
+  const carBrands = useMemo(() => removeDuplicatesByBrand(cars), [cars]);
 
   const columns = cars.length
     ? [...Object.keys(cars[0]).filter((el) => el !== "id"), " "]
@@ -67,36 +77,53 @@ const CarsList = () => {
 
   const wrapperClassName = `${styles.wrapper} container`;
 
-  const filterByNameCallback = (car: { nombre: string; marca: string }) => {
-    const nombre = car.nombre?.toLowerCase();
-    const marca = car.marca?.toLowerCase();
+  const filterByNameCallback = (car: { name: string; brand: string }) => {
+    const name = car.name?.toLowerCase();
+    const brand = car.brand?.toLowerCase();
     const key = searchTerm?.toLowerCase();
     if (searchTerm !== "") {
-      return nombre.includes(key) || marca.includes(key);
+      return name.includes(key) || brand.includes(key);
     } else {
       return car;
     }
   };
 
-  const filterByBrandCallback = (car: { marca: string }) => {
-    const marca = car.marca?.toLowerCase();
+  const filterByBrandCallback = (car: { brand: string }) => {
+    const brand = car.brand?.toLowerCase();
     const key = activeFilter?.toLowerCase() ?? "";
 
     if ([null, undefined, ALL_OPTIONS].includes(key)) {
       return car;
     }
-    return marca.includes(key);
+    return brand.includes(key);
   };
 
-  const filteredCars = cars
-    .filter(filterByNameCallback)
-    .filter(filterByBrandCallback);
+  const filteredCars = useMemo(
+    () => cars.filter(filterByNameCallback).filter(filterByBrandCallback),
+    [searchTerm, activeFilter, cars]
+  );
 
   const onTextChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: "SET_SEARCHTERM", payload: e.target.value });
 
   const dropdownHandler = (e: any) =>
     dispatch({ type: "SET_ACTIVE_FILTER", payload: e.label });
+
+  const closeHandler = () => setOpen(false);
+
+  const submitHandler = (values: { brand: string; model: string }) => {
+    //get the id of the last item on the array
+    const lastId = cars[cars.length - 1].id + 1;
+    const setVals = { id: lastId, name: values.model, brand: values.brand };
+    const newArr = [...cars, setVals];
+    dispatch({ type: "SET_CARS", payload: newArr });
+    setter(NAMESPACES.cars, newArr);
+  };
+
+  const modelsArr = useMemo(
+    () => cars.map(({ name }): string => name.toLowerCase()),
+    [cars]
+  );
 
   return (
     <section className={wrapperClassName}>
@@ -110,21 +137,16 @@ const CarsList = () => {
         dropdownHandler={dropdownHandler}
       />
 
-      {filteredCars.length ? (
-        <Table columns={columns} data={filteredCars} />
-      ) : (
-        <NotFoundData typeOfData="cars" searchTerm={searchTerm} />
-      )}
+      <List list={filteredCars} columns={columns} searchTerm={searchTerm} />
       {open && (
-        <Modal
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          title="Create new car"
-          leftBtnTxt="Delete"
-          rightBtnTxt="Cancel"
-        >
-          aaaaasdlk asdjasd
-        </Modal>
+        <FormModal isOpen={open} onClose={closeHandler} title="Create new car">
+          <CarsForm
+            onSubmit={submitHandler}
+            onClose={closeHandler}
+            theme={theme}
+            modelsArr={modelsArr}
+          ></CarsForm>
+        </FormModal>
       )}
     </section>
   );

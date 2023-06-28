@@ -3,12 +3,13 @@ import { FC, ReactNode } from "react";
 import styles from "./button.module.scss";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   children: ReactNode | string;
   className?: string;
   variant?: "primary" | "secondary";
   disabled?: boolean;
   theme: "light" | "dark";
+  type: "submit" | "button" | "reset";
 }
 
 const Button: FC<ButtonProps> = ({
@@ -18,6 +19,7 @@ const Button: FC<ButtonProps> = ({
   variant = "secondary",
   disabled,
   theme,
+  type = "button",
 }) => {
   return (
     <button
@@ -26,6 +28,7 @@ const Button: FC<ButtonProps> = ({
         styles[`${theme}-btn-${variant}`]
       } ${className}  ${disabled ? styles.disabled : ""}`}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

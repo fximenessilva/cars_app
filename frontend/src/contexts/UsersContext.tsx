@@ -18,7 +18,7 @@ interface User {
   id: number;
   name: string;
   email: string;
-  coches_favoritos: number[];
+  favorite_cars: number[];
 }
 
 interface UsersState {

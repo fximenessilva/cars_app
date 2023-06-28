@@ -10,8 +10,8 @@ interface PageHeadProps {
   onTextChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   textValue: string;
   typeOfData: string;
-  dropdownOptions: { value: number; label: string }[];
-  dropdownHandler: (event: ChangeEvent) => void;
+  dropdownOptions?: { value: number; label: string }[];
+  dropdownHandler?: (event: ChangeEvent) => void;
 }
 
 const PageHead: FC<PageHeadProps> = ({
@@ -34,6 +34,7 @@ const PageHead: FC<PageHeadProps> = ({
             search
             onChange={onTextChange}
             value={textValue}
+            variant="searchbar"
           />
           {isCarsPage && (
             <Dropdown
