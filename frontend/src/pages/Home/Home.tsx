@@ -1,8 +1,8 @@
-import { useState, lazy, useCallback } from "react";
+import { useState, lazy, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "@components/common/Button";
-import { setter, remover } from "@utils/localStorageHelpers";
+import { setter, remover, getter } from "@utils/localStorageHelpers";
 import { NAMESPACES } from "@utils/constants";
 import { useAppContext } from "@contexts/AppContext";
 import { useUsersContext } from "@contexts/UsersContext";
@@ -16,6 +16,8 @@ const LoginForm = lazy(() =>
   }))
 );
 
+const LOGGED_USER = getter(NAMESPACES.user);
+
 const Home = () => {
   const { darkMode, setLoggedUser, loggedUser, userInitialState } =
     useAppContext();
@@ -27,6 +29,12 @@ const Home = () => {
 
   const [hover, setHover] = useState("mid");
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (LOGGED_USER) {
+      setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
+    }
+  }, []);
 
   const closeHandler = () => setOpen(false);
 

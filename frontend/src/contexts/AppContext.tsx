@@ -68,9 +68,6 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!THEME_SELECTED) {
       setter(NAMESPACES.theme, darkMode);
     }
-    if (LOGGED_USER) {
-      setLoggedUser({ isLogged: true, user: LOGGED_USER.email });
-    }
   }, []);
 
   const appClassName = `app ${darkMode ? "dark-mode" : "light-mode"}`;
