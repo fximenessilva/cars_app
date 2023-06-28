@@ -11,14 +11,14 @@ interface FormProps {
   emailsArr: string[];
 }
 
-const INITIAL_VALUES = {
-  name: "",
-  email: "",
-};
-
-const inputsList = Object.keys(INITIAL_VALUES);
-
 const UsersForm: FC<FormProps> = ({ theme, onClose, onSubmit, emailsArr }) => {
+  const INITIAL_VALUES = {
+    name: "",
+    email: "",
+  };
+
+  const inputsList = Object.keys(INITIAL_VALUES);
+
   const categoryEmail = (value: string) => {
     const modelsIncludeValue = emailsArr.includes(value?.toLowerCase());
     return !modelsIncludeValue;

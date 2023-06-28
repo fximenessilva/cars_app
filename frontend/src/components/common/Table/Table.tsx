@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 
 import { useAppContext } from "@contexts/AppContext";
 import styles from "./table.module.scss";
@@ -12,10 +12,22 @@ interface TableProps {
     favorite_cars?: string[];
     [key: string]: any;
   }[];
+  setEdit: (values: any) => void;
+  isEdit: boolean;
 }
 
-const Table: FC<TableProps> = ({ columns, data }) => {
+const Table: FC<TableProps> = ({ columns, data, setEdit }) => {
   const { darkMode } = useAppContext();
+  const orderedData = useMemo(
+    () =>
+      data.sort(
+        (a, b) =>
+          (a.brand ?? "").localeCompare(b.brand ?? "") ||
+          (a.name ?? "").localeCompare(b.name ?? "")
+      ),
+    [data]
+  );
+
   return (
     <div className={styles.wrapper}>
       <table
@@ -32,7 +44,7 @@ const Table: FC<TableProps> = ({ columns, data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {orderedData.map((row, index) => (
             <tr key={index} className={styles.tr}>
               {columns.map((column, index) => {
                 const isList = typeof row[column] === "object";
@@ -40,7 +52,14 @@ const Table: FC<TableProps> = ({ columns, data }) => {
 
                 return (
                   <td className={`${styles.td}`} key={index}>
-                    {isLast && <span className={styles.edit}>Edit</span>}
+                    {isLast && (
+                      <span
+                        onClick={() => setEdit({ values: row, edit: true })}
+                        className={styles.edit}
+                      >
+                        Edit
+                      </span>
+                    )}
                     {!isList ? (
                       <div>{row[column]}</div>
                     ) : (

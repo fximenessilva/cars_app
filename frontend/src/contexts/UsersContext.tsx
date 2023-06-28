@@ -25,6 +25,7 @@ interface User {
 interface UsersState {
   users: User[];
   searchTerm: string;
+  isEdit: { edit: boolean; values: any };
 }
 
 interface UsersContextProps {
@@ -37,7 +38,8 @@ const UsersContext = createContext<UsersContextProps | undefined>(undefined);
 
 type UsersAction =
   | { type: "SET_USERS"; payload: any }
-  | { type: "SET_SEARCHTERM"; payload: string };
+  | { type: "SET_SEARCHTERM"; payload: string }
+  | { type: "SET_EDIT"; payload: any };
 
 const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
   switch (action.type) {
@@ -53,6 +55,12 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
         searchTerm: action.payload,
       };
 
+    case "SET_EDIT":
+      return {
+        ...state,
+        isEdit: { values: action.payload.values, edit: action.payload.edit },
+      };
+
     default:
       return { ...state };
   }
@@ -61,6 +69,7 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
 const INITIAL_STATE: UsersState = {
   users: [],
   searchTerm: "",
+  isEdit: { edit: false, values: {} },
 };
 
 interface UsersProviderProps {
@@ -95,7 +104,7 @@ const useUsersContext = (): UsersContextProps => {
   const context = useContext(UsersContext);
   if (!context) {
     return {
-      state: { users: [], searchTerm: "" },
+      state: { users: [], searchTerm: "", isEdit: { edit: false, values: {} } },
       dispatch: () => {},
       emailsArr: [],
     };

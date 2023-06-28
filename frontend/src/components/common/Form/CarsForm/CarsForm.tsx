@@ -9,18 +9,27 @@ interface FormProps {
   onClose: () => void;
   onSubmit: (values: any) => void;
   modelsArr: string[];
+  isEdit: any;
 }
 
-const INITIAL_VALUES = {
-  brand: "",
-  model: "",
-};
+const CarsForm: FC<FormProps> = ({
+  theme,
+  onClose,
+  onSubmit,
+  modelsArr,
+  isEdit,
+}) => {
+  const INITIAL_VALUES = {
+    brand: isEdit.edit ? isEdit.values.brand : "",
+    model: isEdit.edit ? isEdit.values.name : "",
+    ...(isEdit.edit && { id: isEdit.values.id }),
+  };
 
-const inputsList = Object.keys(INITIAL_VALUES);
+  const inputsList = Object.keys(INITIAL_VALUES).filter((el) => el !== "id");
 
-const CarsForm: FC<FormProps> = ({ theme, onClose, onSubmit, modelsArr }) => {
   const categoryName = (value: string) => {
-    const modelsIncludeValue = modelsArr.includes(value?.toLowerCase());
+    const modelsIncludeValue =
+      modelsArr.includes(value?.toLowerCase()) && !isEdit.edit;
     return !modelsIncludeValue;
   };
 
