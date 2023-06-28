@@ -1,0 +1,65 @@
+@import "../../../styles/utils/mixins";
+@import "../../../styles/utils/variables";
+
+.darkBG {
+  background-color: map-get($colors, 50-percent-black);
+  width: 100vw;
+  height: 1000vh;
+  z-index: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  z-index: 12;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 13;
+}
+
+.modal {
+  width: 250px;
+  padding: 30px;
+  background: map-get($colors, white-color);
+  color: map-get($colors, white-color);
+  z-index: 10;
+  border-radius: map-get($border-radius, primary);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
+.modalHeader {
+  background: map-get($colors, white-color);
+  overflow: hidden;
+  border-top-left-radius: map-get($border-radius, primary);
+  border-top-right-radius: map-get($border-radius, primary);
+}
+
+.heading {
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+}
+
+.modalContent {
+  margin: 20px 0 30px;
+  font-size: 14px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.modalActions {
+  width: 100%;
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
