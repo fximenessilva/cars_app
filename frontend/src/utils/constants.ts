@@ -2,6 +2,7 @@ const NAMESPACES = {
   theme: "auto_connect-theme",
   cars: "carsList",
   users: "usersList",
+  user: "logged_user",
 };
 
 const FOOTER_ICONS_LIST = [

@@ -8,7 +8,6 @@ interface TableProps {
   data: {
     name?: string;
     email?: string;
-    name?: string;
     brand?: string;
     favorite_cars?: string[];
     [key: string]: any;

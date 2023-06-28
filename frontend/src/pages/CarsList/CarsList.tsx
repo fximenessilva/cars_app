@@ -1,7 +1,7 @@
-import { useState, lazy, useMemo, ChangeEvent, FC } from "react";
+import { useState, lazy, useMemo, ChangeEvent } from "react";
 
 import { NAMESPACES } from "@utils/constants";
-import { setter, getter } from "@utils/localStorageHelpers";
+import { setter } from "@utils/localStorageHelpers";
 import { useCarsContext } from "@contexts/CarsContext";
 import { useAppContext } from "@contexts/AppContext";
 import List from "@components/common/List";
@@ -25,7 +25,10 @@ const ALL_OPTIONS = "all options";
 const CarsList = () => {
   const [open, setOpen] = useState(false);
 
-  const { darkMode } = useAppContext();
+  const {
+    darkMode,
+    loggedUser: { isLogged },
+  } = useAppContext();
   const { state, dispatch } = useCarsContext();
 
   const { cars, searchTerm = "", activeFilter = "" } = state;
@@ -135,6 +138,7 @@ const CarsList = () => {
         typeOfData="cars"
         dropdownOptions={[{ label: ALL_OPTIONS, value: 0 }, ...carBrands]}
         dropdownHandler={dropdownHandler}
+        isUserLogged={isLogged}
       />
 
       <List list={filteredCars} columns={columns} searchTerm={searchTerm} />

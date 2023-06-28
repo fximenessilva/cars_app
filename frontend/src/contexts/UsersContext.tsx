@@ -7,6 +7,7 @@ import {
   FC,
   ReactNode,
   Dispatch,
+  useMemo,
 } from "react";
 
 import { setter, getter } from "@utils/localStorageHelpers";
@@ -29,6 +30,7 @@ interface UsersState {
 interface UsersContextProps {
   state: UsersState;
   dispatch: Dispatch<any>;
+  emailsArr: string[];
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
@@ -77,8 +79,13 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const emailsArr = useMemo(
+    () => state.users.map(({ email }): string => email.toLowerCase()),
+    [state.users]
+  );
+
   return (
-    <UsersContext.Provider value={{ state, dispatch }}>
+    <UsersContext.Provider value={{ state, dispatch, emailsArr }}>
       {children}
     </UsersContext.Provider>
   );
@@ -87,7 +94,11 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
 const useUsersContext = (): UsersContextProps => {
   const context = useContext(UsersContext);
   if (!context) {
-    return { state: { users: [], searchTerm: "" }, dispatch: () => {} };
+    return {
+      state: { users: [], searchTerm: "" },
+      dispatch: () => {},
+      emailsArr: [],
+    };
   }
   return context;
 };
