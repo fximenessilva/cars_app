@@ -68,8 +68,11 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!THEME_SELECTED) {
       setter(NAMESPACES.theme, darkMode);
     }
+  }, []);
+
+  useEffect(() => {
     if (LOGGED_USER) {
-      setLoggedUser({ isLogged: true, user: LOGGED_USER.email });
+      setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
     }
   }, []);
 

@@ -1,4 +1,4 @@
-import { useState, lazy, ChangeEvent, useMemo } from "react";
+import { useState, lazy, ChangeEvent, useMemo, useEffect } from "react";
 
 import { NAMESPACES } from "@utils/constants";
 import { setter } from "@utils/localStorageHelpers";
@@ -27,7 +27,7 @@ const UsersList = () => {
   const { state: usersState, dispatch, emailsArr } = useUsersContext();
   const { state: carsState } = useCarsContext();
 
-  const { users, searchTerm } = usersState;
+  const { users, searchTerm, isEdit } = usersState;
   const { cars } = carsState;
 
   const theme = darkMode ? "dark" : "light";
@@ -63,6 +63,11 @@ const UsersList = () => {
 
   const closeHandler = () => setOpen(false);
 
+  // falta implementar
+  const createNewCar = (values: any) => {};
+
+  const updateCar = (values: any) => {};
+
   const submitHandler = (values: { email: string; name: string }) => {
     //get the id of the last item on the array
     const lastId = users[users.length - 1].id + 1;
@@ -75,6 +80,11 @@ const UsersList = () => {
   const onTextChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
     dispatch({ type: "SET_SEARCHTERM", payload: e.target.value });
 
+  const setEditHandler = (obj: any) => {
+    dispatch({ type: "SET_EDIT", payload: { ...obj } });
+    setOpen(true);
+  };
+
   return (
     <section className={wrapperClassName}>
       <PageHead
@@ -86,7 +96,13 @@ const UsersList = () => {
         isUserLogged={isLogged}
       />
 
-      <List list={filteredUsers} columns={columns} searchTerm={searchTerm} />
+      <List
+        list={filteredUsers}
+        columns={columns}
+        searchTerm={searchTerm}
+        setEdit={setEditHandler}
+        isEdit={isEdit.edit}
+      />
 
       {open && (
         <FormModal isOpen={open} onClose={closeHandler} title="Create new user">

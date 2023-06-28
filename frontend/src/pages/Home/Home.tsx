@@ -1,8 +1,8 @@
-import { useState, lazy, useCallback } from "react";
+import { useState, lazy, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "@components/common/Button";
-import { setter, remover } from "@utils/localStorageHelpers";
+import { setter, remover, getter } from "@utils/localStorageHelpers";
 import { NAMESPACES } from "@utils/constants";
 import { useAppContext } from "@contexts/AppContext";
 import { useUsersContext } from "@contexts/UsersContext";
@@ -15,6 +15,8 @@ const LoginForm = lazy(() =>
     default: module.LoginForm,
   }))
 );
+
+const LOGGED_USER = getter(NAMESPACES.user);
 
 const Home = () => {
   const { darkMode, setLoggedUser, loggedUser, userInitialState } =
