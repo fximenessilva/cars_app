@@ -17,6 +17,18 @@
       "name": "Pedro",
       "email": "pedro@akkodis.com",
       "favorite_cars": [1, 2, 3, 4, 5, 6, 7]
+    },
+    {
+      "id": 4,
+      "name": "Ze",
+      "email": "ze@akkodis.com",
+      "favorite_cars": [5, 6, 7]
+    },
+    {
+      "id": 5,
+      "name": "Albert",
+      "email": "albert@akkodis.com",
+      "favorite_cars": [5, 6, 7]
     }
   ]
 }

@@ -30,12 +30,6 @@ const Home = () => {
   const [hover, setHover] = useState("mid");
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (LOGGED_USER) {
-      setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
-    }
-  }, []);
-
   const closeHandler = () => setOpen(false);
 
   const submitHandler = (values: { email: string }) => {

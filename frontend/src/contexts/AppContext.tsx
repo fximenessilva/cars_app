@@ -70,6 +70,12 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (LOGGED_USER) {
+      setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
+    }
+  }, []);
+
   const appClassName = `app ${darkMode ? "dark-mode" : "light-mode"}`;
   return (
     <div className={appClassName}>

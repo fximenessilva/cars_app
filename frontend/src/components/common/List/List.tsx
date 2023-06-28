@@ -13,11 +13,13 @@ interface ListProps {
   }[];
   columns: string[];
   searchTerm: string;
+  setEdit: (values: any) => void;
+  isEdit: boolean;
 }
 
-const List: FC<ListProps> = ({ list, columns, searchTerm }) =>
+const List: FC<ListProps> = ({ list, columns, searchTerm, setEdit, isEdit }) =>
   list.length ? (
-    <Table columns={columns} data={list} />
+    <Table columns={columns} data={list} setEdit={setEdit} isEdit={isEdit} />
   ) : (
     <NotFoundData typeOfData="cars" searchTerm={searchTerm} />
   );

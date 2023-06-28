@@ -16,8 +16,9 @@ const CarsForm = lazy(() =>
 );
 
 interface Car {
-  id: number;
+  id?: number;
   brand: string;
+  model: string;
 }
 
 const ALL_OPTIONS = "all options";
@@ -31,7 +32,7 @@ const CarsList = () => {
   } = useAppContext();
   const { state, dispatch } = useCarsContext();
 
-  const { cars, searchTerm = "", activeFilter = "" } = state;
+  const { cars, searchTerm = "", activeFilter = "", isEdit } = state;
 
   const theme = darkMode ? "dark" : "light";
 
@@ -45,14 +46,8 @@ const CarsList = () => {
     return labelA.localeCompare(labelB);
   };
 
-  const removeDuplicatesMapCallback = ({
-    id,
-    brand,
-  }: {
-    id: number;
-    brand: string;
-  }) => ({
-    value: id,
+  const removeDuplicatesMapCallback = ({ id, brand }: Car) => ({
+    value: id ?? -1,
     label: brand,
   });
 
@@ -112,15 +107,45 @@ const CarsList = () => {
   const dropdownHandler = (e: any) =>
     dispatch({ type: "SET_ACTIVE_FILTER", payload: e.label });
 
-  const closeHandler = () => setOpen(false);
+  const closeHandler = () => {
+    setOpen(false);
+    if (isEdit.edit) {
+      dispatch({ type: "SET_EDIT", payload: { edit: false, values: {} } });
+    }
+  };
 
-  const submitHandler = (values: { brand: string; model: string }) => {
+  const createNewCar = (values: Car) => {
     //get the id of the last item on the array
     const lastId = cars[cars.length - 1].id + 1;
     const setVals = { id: lastId, name: values.model, brand: values.brand };
     const newArr = [...cars, setVals];
     dispatch({ type: "SET_CARS", payload: newArr });
     setter(NAMESPACES.cars, newArr);
+  };
+
+  const updateCar = (values: Car) => {
+    const filteredList = cars.filter((el) => el.id !== values.id);
+    const setVals = {
+      id: values.id,
+      name: values.model,
+      brand: values.brand,
+    };
+    const newArr = [setVals, ...filteredList];
+    dispatch({ type: "SET_CARS", payload: newArr });
+    setter(NAMESPACES.cars, newArr);
+  };
+
+  const submitHandler = (values: Car) => {
+    if (!isEdit.edit) {
+      createNewCar(values);
+    } else {
+      updateCar(values);
+    }
+  };
+
+  const setEditHandler = (obj: any) => {
+    dispatch({ type: "SET_EDIT", payload: { ...obj } });
+    setOpen(true);
   };
 
   const modelsArr = useMemo(
@@ -141,7 +166,13 @@ const CarsList = () => {
         isUserLogged={isLogged}
       />
 
-      <List list={filteredCars} columns={columns} searchTerm={searchTerm} />
+      <List
+        list={filteredCars}
+        columns={columns}
+        searchTerm={searchTerm}
+        setEdit={setEditHandler}
+        isEdit={isEdit.edit}
+      />
       {open && (
         <FormModal isOpen={open} onClose={closeHandler} title="Create new car">
           <CarsForm
@@ -149,6 +180,7 @@ const CarsList = () => {
             onClose={closeHandler}
             theme={theme}
             modelsArr={modelsArr}
+            isEdit={isEdit}
           ></CarsForm>
         </FormModal>
       )}
