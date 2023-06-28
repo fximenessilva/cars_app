@@ -23,6 +23,7 @@ interface User {
 
 interface UsersState {
   users: User[];
+  searchTerm: string;
 }
 
 interface UsersContextProps {
@@ -32,7 +33,9 @@ interface UsersContextProps {
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
 
-type UsersAction = { type: "SET_USERS"; payload: any };
+type UsersAction =
+  | { type: "SET_USERS"; payload: any }
+  | { type: "SET_SEARCHTERM"; payload: string };
 
 const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
   switch (action.type) {
@@ -42,6 +45,12 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
         users: action.payload,
       };
 
+    case "SET_SEARCHTERM":
+      return {
+        ...state,
+        searchTerm: action.payload,
+      };
+
     default:
       return { ...state };
   }
@@ -49,6 +58,7 @@ const usersReducer = (state: UsersState, action: UsersAction): UsersState => {
 
 const INITIAL_STATE: UsersState = {
   users: [],
+  searchTerm: "",
 };
 
 interface UsersProviderProps {
@@ -77,7 +87,7 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
 const useUsersContext = (): UsersContextProps => {
   const context = useContext(UsersContext);
   if (!context) {
-    return { state: { users: [] }, dispatch: () => {} };
+    return { state: { users: [], searchTerm: "" }, dispatch: () => {} };
   }
   return context;
 };

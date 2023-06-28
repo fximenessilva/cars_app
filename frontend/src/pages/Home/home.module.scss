@@ -17,7 +17,7 @@
   font-weight: 700;
   transition: all 0.5s ease-out !important;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: map-get($border-radius, primary);
 }
 
 .dark {

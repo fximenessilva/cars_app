@@ -46,14 +46,14 @@
 
 .td:first-child {
   width: 20%;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: map-get($border-radius, primary);
+  border-bottom-left-radius: map-get($border-radius, primary);
   padding-left: 3rem;
 }
 
 .td:last-child {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-top-right-radius: map-get($border-radius, primary);
+  border-bottom-right-radius: map-get($border-radius, primary);
   padding-right: 1.5rem;
 }
 

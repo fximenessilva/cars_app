@@ -4,6 +4,7 @@ $colors-dark: (
   background-primary: #333333,
   secondary: #18ff6d,
   tertiary: #72a276,
+  tertiary-dark: hsl(125, 21%, 44%),
   tertiary-variant-1: #fcaa67,
   tertiary-variant-2: #e65f5c,
   tertiary-variant-3: #59a5d8,
@@ -15,9 +16,16 @@ $colors-light: (
   background-primary: #e7ecef,
   secondary: #138a36,
   tertiary: #007ea7,
+  tertiary-dark: hsl(195, 100%, 23%),
   tertiary-variant-1: #ffc15e,
   tertiary-variant-2: #d72638,
   tertiary-variant-3: #bfd7ea,
+);
+
+$colors: (50-percent-black: rgba(0, 0, 0, 0.5), white-color: #fff);
+
+$border-radius: (
+  primary: 8px,
 );
 
 $fonts: ();

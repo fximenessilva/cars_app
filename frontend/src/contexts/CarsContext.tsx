@@ -22,6 +22,8 @@ interface Car {
 
 interface CarsState {
   cars: Car[];
+  searchTerm: string;
+  activeFilter: string | null;
 }
 
 interface CarsContextProps {
@@ -31,7 +33,10 @@ interface CarsContextProps {
 
 const CarsContext = createContext<CarsContextProps | undefined>(undefined);
 
-type CarsAction = { type: "SET_CARS"; payload: any };
+type CarsAction =
+  | { type: "SET_CARS"; payload: any }
+  | { type: "SET_SEARCHTERM"; payload: string }
+  | { type: "SET_ACTIVE_FILTER"; payload: string };
 
 const carsReducer = (state: CarsState, action: CarsAction): CarsState => {
   switch (action.type) {
@@ -41,6 +46,18 @@ const carsReducer = (state: CarsState, action: CarsAction): CarsState => {
         cars: action.payload,
       };
 
+    case "SET_SEARCHTERM":
+      return {
+        ...state,
+        searchTerm: action.payload,
+      };
+
+    case "SET_ACTIVE_FILTER":
+      return {
+        ...state,
+        activeFilter: action.payload,
+      };
+
     default:
       return { ...state };
   }
@@ -48,6 +65,8 @@ const carsReducer = (state: CarsState, action: CarsAction): CarsState => {
 
 const INITIAL_STATE: CarsState = {
   cars: [],
+  searchTerm: "",
+  activeFilter: null,
 };
 
 interface CarsProviderProps {
@@ -76,7 +95,10 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
 const useCarsContext = (): CarsContextProps => {
   const context = useContext(CarsContext);
   if (!context) {
-    return { state: { cars: [] }, dispatch: () => {} };
+    return {
+      state: { cars: [], searchTerm: "", activeFilter: null },
+      dispatch: () => {},
+    };
   }
   return context;
 };

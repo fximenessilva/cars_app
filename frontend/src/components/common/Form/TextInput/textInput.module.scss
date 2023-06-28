@@ -1,0 +1,9 @@
+@import "../../../../styles/utils/mixins";
+@import "../../../../styles/utils/variables";
+
+.search {
+  background: url("https://cdn-icons-png.flaticon.com/512/622/622669.png") 96%
+    50% no-repeat padding-box;
+  background-size: 14px;
+  background-color: map-get($colors, white-color);
+}

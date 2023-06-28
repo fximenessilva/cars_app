@@ -5,10 +5,13 @@ import { useAppContext } from "@contexts/AppContext";
 import { ROUTES_LINKS } from "@utils/constants";
 import styles from "./home.module.scss";
 
+import Modal from "@components/common/Modal";
+
 const Home = () => {
   const { darkMode } = useAppContext();
 
   const [hover, setHover] = useState("mid");
+  const [open, setOpen] = useState(true);
 
   return (
     <section className="container">
