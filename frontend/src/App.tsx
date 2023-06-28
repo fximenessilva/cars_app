@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Wrapper from "@components/utils/Wrapper";
@@ -11,9 +12,30 @@ function App() {
   return (
     <Wrapper>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cars" element={<CarsList />} />
-        <Route path="/users" element={<UsersList />} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/cars"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <CarsList />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <UsersList />
+            </Suspense>
+          }
+        />
       </Routes>
     </Wrapper>
   );

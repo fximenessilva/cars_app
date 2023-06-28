@@ -2,13 +2,22 @@
 @import "../../../styles/utils/variables";
 
 .page-head-wrapper {
-  @include flex(row, center, space-between);
-  margin-bottom: 2rem;
+  @include flex(column);
+  margin-bottom: 1.75rem;
 }
 
-.page-ttl {
-  font-size: 2rem;
-  line-height: 2.5rem;
+.bottom-row {
+  @include flex(row, center, space-between);
+  :global {
+    .txt-input {
+      width: 300px;
+    }
+  }
+}
+
+.filters {
+  @include flex(row, center, center);
+  gap: 1rem;
 }
 
 .add-icon {

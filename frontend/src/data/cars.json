@@ -1,12 +1,12 @@
 {
   "coches": [
-    { "id": 1, "nombre": "Ateca", "marca": "SEAT" },
-    { "id": 2, "nombre": "Formentor", "marca": "Cupra" },
-    { "id": 3, "nombre": "Arteon", "marca": "VW" },
-    { "id": 4, "nombre": "Arteon", "marca": "VW" },
-    { "id": 5, "nombre": "Arteon", "marca": "VW" },
-    { "id": 6, "nombre": "Arteon", "marca": "VW" },
-    { "id": 7, "nombre": "Arteon", "marca": "VW" },
-    { "id": 8, "nombre": "Arteon", "marca": "VW" }
+    { "id": 1, "name": "Ateca", "brand": "SEAT" },
+    { "id": 2, "name": "Formentor", "brand": "Cupra" },
+    { "id": 3, "name": "Puro Sangue", "brand": "Ferrari" },
+    { "id": 4, "name": "Passat", "brand": "VW" },
+    { "id": 5, "name": "Panda", "brand": "Fiat" },
+    { "id": 6, "name": "X-Type", "brand": "Jaguar" },
+    { "id": 7, "name": "Polo", "brand": "VW" },
+    { "id": 8, "name": "A3", "brand": "Audio" }
   ]
 }

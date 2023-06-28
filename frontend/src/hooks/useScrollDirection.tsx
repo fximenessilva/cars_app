@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function useScrollDirection() {
-  const [scrollDirection, setScrollDirection] = useState(null);
+  const [scrollDirection, setScrollDirection] = useState<string | null>(null);
 
   useEffect(() => {
     let lastScrollY = window.pageYOffset;
@@ -17,9 +17,10 @@ function useScrollDirection() {
       }
       lastScrollY = scrollY > 0 ? scrollY : 0;
     };
-    window.addEventListener("scroll", updateScrollDirection); // add event listener
+
+    window.addEventListener("scroll", updateScrollDirection);
     return () => {
-      window.removeEventListener("scroll", updateScrollDirection); // clean up
+      window.removeEventListener("scroll", updateScrollDirection);
     };
   }, [scrollDirection]);
 

@@ -8,9 +8,8 @@ interface TableProps {
   data: {
     name?: string;
     email?: string;
-    nombre?: string;
-    marca?: string;
-    coches_favoritos?: string[];
+    brand?: string;
+    favorite_cars?: string[];
     [key: string]: any;
   }[];
 }

@@ -4,19 +4,19 @@
       "id": 1,
       "name": "Juan",
       "email": "juan@akkodis.com",
-      "coches_favoritos": [2, 3]
+      "favorite_cars": [2, 3]
     },
     {
       "id": 2,
       "name": "María",
       "email": "maria@akkodis.com",
-      "coches_favoritos": [3]
+      "favorite_cars": [3]
     },
     {
       "id": 3,
       "name": "Pedro",
       "email": "pedro@akkodis.com",
-      "coches_favoritos": [1, 2, 3, 4, 5, 6, 7]
+      "favorite_cars": [1, 2, 3, 4, 5, 6, 7]
     }
   ]
 }
