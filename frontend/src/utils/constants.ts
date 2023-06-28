@@ -1,4 +1,8 @@
-const THEME_NAMESPACE = "auto_connect-theme";
+const NAMESPACES = {
+  theme: "auto_connect-theme",
+  cars: "carsList",
+  users: "usersList",
+};
 
 const FOOTER_ICONS_LIST = [
   {
@@ -17,4 +21,4 @@ const ROUTES_LINKS = [
   { page: "Users", href: "/users", icon: "fa-solid fa-users" },
 ];
 
-export { THEME_NAMESPACE, FOOTER_ICONS_LIST, ROUTES_LINKS };
+export { NAMESPACES, FOOTER_ICONS_LIST, ROUTES_LINKS };
