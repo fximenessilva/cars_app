@@ -1,9 +1,10 @@
 import { useAppContext } from "@contexts/AppContext";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import useScrollDirection from "@hooks/useScrollDirection";
 
-import { THEME_NAMESPACE, ROUTES_LINKS } from "@utils/constants";
+import { NAMESPACES, ROUTES_LINKS } from "@utils/constants";
+import { setter } from "@utils/localStorageHelpers";
 import styles from "./header.module.scss";
 
 const Header = () => {
@@ -21,7 +22,7 @@ const Header = () => {
 
   const toggleHandler = () => {
     setDarkMode((prevState) => {
-      localStorage.setItem(THEME_NAMESPACE, JSON.stringify(!prevState));
+      setter(NAMESPACES.theme, !prevState);
       return !prevState;
     });
   };
@@ -33,9 +34,13 @@ const Header = () => {
       </Link>
       <nav className={styles.nav}>
         {ROUTES_LINKS.map(({ page, href }) => (
-          <Link className={`animated-link ${styles.link}`} to={href} key={page}>
+          <NavLink
+            className={`animated-link ${styles.link}`}
+            to={href}
+            key={page}
+          >
             {page}
-          </Link>
+          </NavLink>
         ))}
       </nav>
       <div className={styles["icons-wrapper"]} onClick={toggleHandler}>

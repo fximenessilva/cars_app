@@ -9,7 +9,8 @@ import {
   Dispatch,
 } from "react";
 
-import { THEME_NAMESPACE } from "@utils/constants";
+import { NAMESPACES } from "@utils/constants";
+import { setter } from "@utils/localStorageHelpers";
 
 export const AppContext = createContext<{
   darkMode: boolean;
@@ -18,7 +19,7 @@ export const AppContext = createContext<{
   darkMode: false,
   setDarkMode: () => {},
 });
-const THEME_SELECTED = localStorage.getItem(THEME_NAMESPACE);
+const THEME_SELECTED = localStorage.getItem(NAMESPACES.theme);
 const DARK_MODE_INITIAL_VALUE = THEME_SELECTED === "true";
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -26,7 +27,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     if (!THEME_SELECTED) {
-      localStorage.setItem(THEME_NAMESPACE, JSON.stringify(darkMode));
+      setter(NAMESPACES.theme, darkMode);
     }
   }, []);
 
