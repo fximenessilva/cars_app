@@ -22,7 +22,12 @@ $colors-light: (
   tertiary-variant-3: #bfd7ea,
 );
 
-$colors: (50-percent-black: rgba(0, 0, 0, 0.5), white-color: #fff);
+$colors: (
+  50-percent-black: rgba(0, 0, 0, 0.5),
+  white-color: #fff,
+  primary-dark-grey: #bdbdbd,
+  primary-error: #d72638
+);
 
 $border-radius: (
   primary: 8px,

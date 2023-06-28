@@ -65,6 +65,7 @@ const Modal: FC<ModalProps> = ({
           <div className={styles.modalActions}>
             <div className={styles.actionsContainer}>
               <Button
+                type="button"
                 className={styles.deleteBtn}
                 onClick={leftBtnHandler}
                 theme={theme}
@@ -72,6 +73,7 @@ const Modal: FC<ModalProps> = ({
                 {leftBtnTxt}
               </Button>
               <Button
+                type="button"
                 className={styles.cancelBtn}
                 onClick={rightBtnHandler}
                 theme={theme}

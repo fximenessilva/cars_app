@@ -1,9 +1,33 @@
 @import "../../../../styles/utils/mixins";
 @import "../../../../styles/utils/variables";
 
+.wrapper {
+  @include flex(column, flex-start);
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  text-transform: capitalize;
+}
+
 .search {
   background: url("https://cdn-icons-png.flaticon.com/512/622/622669.png") 96%
     50% no-repeat padding-box;
   background-size: 14px;
   background-color: map-get($colors, white-color);
+}
+
+.form-variant {
+  margin-bottom: 1.5rem;
+
+  .input {
+    width: calc(100% - 1rem);
+    border-color: map-get($colors, primary-dark-grey) !important;
+  }
+}
+
+.error {
+  color: map-get($colors, primary-error);
+  font-size: 12px;
+  margin-top: 0.25rem;
 }

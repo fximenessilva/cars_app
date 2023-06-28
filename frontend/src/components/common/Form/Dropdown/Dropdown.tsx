@@ -16,7 +16,7 @@ interface Option {
 
 interface MultiSelectProps {
   isMulti?: boolean;
-  options: Option[];
+  options?: Option[];
   className?: string;
   label?: string;
   name?: string;
@@ -47,6 +47,7 @@ const MultiSelect: FC<MultiSelectProps> = ({
       borderRadius: "8px",
       minWidth: "200px",
       textTransform: "capitalize",
+      letterSpacing: "0.5px",
       "&:hover": {
         borderColor: "#e7ecef !important",
       },
