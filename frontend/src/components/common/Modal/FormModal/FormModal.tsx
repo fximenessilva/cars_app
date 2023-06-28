@@ -30,7 +30,7 @@ const FormModal: FC<FormModalProps> = ({
         <div className={styles.modal}>
           {title ? (
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>{title}</h5>
+              <h4 className={styles.heading}>{title}</h4>
             </div>
           ) : null}
 

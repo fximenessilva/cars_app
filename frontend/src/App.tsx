@@ -12,7 +12,14 @@ function App() {
   return (
     <Wrapper>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<div>Loading...</div>}>
+              <Home />
+            </Suspense>
+          }
+        />
         <Route
           path="/cars"
           element={

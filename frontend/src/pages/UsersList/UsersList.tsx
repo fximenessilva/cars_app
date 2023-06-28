@@ -1,7 +1,7 @@
 import { useState, lazy, ChangeEvent, useMemo } from "react";
 
 import { NAMESPACES } from "@utils/constants";
-import { setter, getter } from "@utils/localStorageHelpers";
+import { setter } from "@utils/localStorageHelpers";
 import { useUsersContext } from "@contexts/UsersContext";
 import { useCarsContext } from "@contexts/CarsContext";
 import { useAppContext } from "@contexts/AppContext";
@@ -17,14 +17,14 @@ const UsersForm = lazy(() =>
   }))
 );
 
-const NotFoundData = lazy(() => import("@components/common/NotFoundData"));
-const Modal = lazy(() => import("@components/common/Modal"));
-
 const UsersList = () => {
   const [open, setOpen] = useState(false);
 
-  const { darkMode } = useAppContext();
-  const { state: usersState, dispatch } = useUsersContext();
+  const {
+    darkMode,
+    loggedUser: { isLogged },
+  } = useAppContext();
+  const { state: usersState, dispatch, emailsArr } = useUsersContext();
   const { state: carsState } = useCarsContext();
 
   const { users, searchTerm } = usersState;
@@ -61,11 +61,6 @@ const UsersList = () => {
     [searchTerm, users]
   );
 
-  const emailsArr = useMemo(
-    () => users.map(({ email }): string => email.toLowerCase()),
-    [users]
-  );
-
   const closeHandler = () => setOpen(false);
 
   const submitHandler = (values: { email: string; name: string }) => {
@@ -88,6 +83,7 @@ const UsersList = () => {
         onTextChange={onTextChangeHandler}
         textValue={searchTerm}
         typeOfData="users"
+        isUserLogged={isLogged}
       />
 
       <List list={filteredUsers} columns={columns} searchTerm={searchTerm} />

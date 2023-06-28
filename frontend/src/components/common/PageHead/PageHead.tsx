@@ -12,6 +12,7 @@ interface PageHeadProps {
   typeOfData: string;
   dropdownOptions?: { value: number; label: string }[];
   dropdownHandler?: (event: ChangeEvent) => void;
+  isUserLogged: boolean;
 }
 
 const PageHead: FC<PageHeadProps> = ({
@@ -22,11 +23,12 @@ const PageHead: FC<PageHeadProps> = ({
   typeOfData,
   dropdownOptions,
   dropdownHandler,
+  isUserLogged,
 }) => {
   const isCarsPage = typeOfData === "cars";
   return (
     <div className={styles["page-head-wrapper"]}>
-      <h1 className={styles["page-ttl"]}>{title}</h1>
+      <h1 className={"page-ttl"}>{title}</h1>
       <div className={styles["bottom-row"]}>
         <div className={styles.filters}>
           <TextInput
@@ -43,11 +45,12 @@ const PageHead: FC<PageHeadProps> = ({
             />
           )}
         </div>
-
-        <i
-          onClick={onClick}
-          className={`fa-solid fa-plus add-icon ${styles["add-icon"]}`}
-        />
+        {isUserLogged && (
+          <i
+            onClick={onClick}
+            className={`fa-solid fa-plus add-icon ${styles["add-icon"]}`}
+          />
+        )}
       </div>
     </div>
   );
