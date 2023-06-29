@@ -42,7 +42,7 @@ const Table: FC<TableProps> = ({
     [data]
   );
 
-  const isCarsTable = typeOfData === "cars";
+  const isCarsTable = typeOfData === "car";
 
   return (
     <div className={styles.wrapper}>

@@ -95,6 +95,7 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
 
   const {
     loggedUser: { user },
+    setLoggedUser,
   } = useAppContext();
 
   useEffect(() => {
@@ -125,7 +126,8 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
     };
     usersDispatch({ type: "SET_USERS", payload: newUsersList });
     setter(NAMESPACES.users, newUsersList);
-    setter(NAMESPACES.user, newUserObj);
+    setter(NAMESPACES.user, { user: newUserObj });
+    setLoggedUser({ isLogged: true, user: newUserObj });
   };
 
   return (
