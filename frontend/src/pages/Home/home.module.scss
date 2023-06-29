@@ -59,6 +59,11 @@
   }
 }
 
+.buttons-wrapper {
+  @include flex(row, center);
+  gap: 1rem;
+}
+
 .icon {
   font-size: 12rem;
 }
@@ -84,7 +89,7 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .msg-logout-wrapper {
     flex-direction: column;
     align-items: flex-start;
