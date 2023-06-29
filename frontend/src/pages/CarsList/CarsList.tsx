@@ -28,7 +28,7 @@ const CarsList = () => {
 
   const {
     darkMode,
-    loggedUser: { isLogged },
+    loggedUser: { isLogged, user },
   } = useAppContext();
   const { state, dispatch } = useCarsContext();
 
@@ -52,11 +52,11 @@ const CarsList = () => {
   });
 
   const removeDuplicatesByBrand = (
-    array: Car[]
+    array: any
   ): { value: number; label: string }[] => {
     const uniquebrands: string[] = [];
     return array
-      .filter((obj) => {
+      .filter((obj: any) => {
         if (!uniquebrands.includes(obj.brand)) {
           uniquebrands.push(obj.brand);
           return true;
@@ -69,9 +69,7 @@ const CarsList = () => {
 
   const carBrands = useMemo(() => removeDuplicatesByBrand(cars), [cars]);
 
-  const columns = cars.length
-    ? [...Object.keys(cars[0]).filter((el) => el !== "id"), " "]
-    : [];
+  const columns = cars.length ? [...Object.keys(cars[0]), " "] : [];
 
   const wrapperClassName = `${styles.wrapper} container`;
 
@@ -172,6 +170,8 @@ const CarsList = () => {
         searchTerm={searchTerm}
         setEdit={setEditHandler}
         isEdit={isEdit.edit}
+        typeOfData="cars"
+        user={user || {}}
       />
       {open && (
         <FormModal isOpen={open} onClose={closeHandler} title="Create new car">

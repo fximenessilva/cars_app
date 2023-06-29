@@ -91,6 +91,7 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
       dispatch({ type: "SET_CARS", payload: cars });
     } else {
       setter(NAMESPACES.cars, dataCars.coches);
+      dispatch({ type: "SET_CARS", payload: dataCars.coches });
     }
   }, []);
 
