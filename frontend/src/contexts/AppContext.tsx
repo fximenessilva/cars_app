@@ -48,9 +48,9 @@ export const AppContext = createContext<{
   loggedUser: LoggedUser;
   setLoggedUser: Dispatch<SetStateAction<LoggedUser>>;
   userInitialState: User;
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-  btnContent: ReactNode;
+  loading: any;
+  setLoading: Dispatch<SetStateAction<any>>;
+  btnContent: any;
   setBtnContent: Dispatch<SetStateAction<any>>;
   snackbarProps: any;
   setSnackbarProps: Dispatch<SetStateAction<any>>;
@@ -73,8 +73,11 @@ export const AppContext = createContext<{
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(THEME_SELECTED);
-  const [loading, setLoading] = useState(false);
-  const [btnContent, setBtnContent] = useState(<>Log in</>);
+  const [loading, setLoading] = useState({ primary: false, secondary: false });
+  const [btnContent, setBtnContent] = useState({
+    primary: <>Log in</>,
+    secondary: <>Initial data</>,
+  });
   const [loggedUser, setLoggedUser] = useState<LoggedUser>({
     isLogged: false,
     user: { ...USER_INITIAL_STATE },
@@ -91,7 +94,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (LOGGED_USER) {
       setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
-      setBtnContent(<>Log out</>);
+      setBtnContent({ primary: <>Log out</>, secondary: <>Initial data</> });
     }
   }, []);
 
