@@ -19,8 +19,17 @@ const LoginForm = lazy(() =>
 const FAKE_API_CALLS_MS = 1000;
 
 const Home = () => {
-  const { darkMode, setLoggedUser, loggedUser, userInitialState } =
-    useAppContext();
+  const {
+    darkMode,
+    setLoggedUser,
+    loggedUser,
+    userInitialState,
+    loading,
+    setLoading,
+    btnContent,
+    setBtnContent,
+  } = useAppContext();
+
   const { emailsArr, state } = useUsersContext();
 
   const { users } = state;
@@ -29,8 +38,6 @@ const Home = () => {
 
   const [hover, setHover] = useState("mid");
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [btnContent, setBtnContent] = useState(<>Log in</>);
 
   useEffect(() => {
     if (loading) {

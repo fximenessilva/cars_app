@@ -40,6 +40,10 @@ export const AppContext = createContext<{
   loggedUser: LoggedUser;
   setLoggedUser: Dispatch<SetStateAction<LoggedUser>>;
   userInitialState: User;
+  loading: boolean;
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  btnContent: ReactNode;
+  setBtnContent: Dispatch<SetStateAction<any>>;
 }>({
   darkMode: false,
   setDarkMode: () => {},
@@ -54,11 +58,16 @@ export const AppContext = createContext<{
   },
   setLoggedUser: () => {},
   userInitialState: USER_INITIAL_STATE,
+  loading: false,
+  setLoading: () => {},
+  btnContent: <></>,
+  setBtnContent: () => {},
 });
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(THEME_SELECTED);
-
+  const [loading, setLoading] = useState(false);
+  const [btnContent, setBtnContent] = useState(<>Log in</>);
   const [loggedUser, setLoggedUser] = useState<LoggedUser>({
     isLogged: false,
     user: { ...USER_INITIAL_STATE },
@@ -85,6 +94,10 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
           setDarkMode,
           loggedUser,
           setLoggedUser,
+          loading,
+          setLoading,
+          btnContent,
+          setBtnContent,
           userInitialState: USER_INITIAL_STATE,
         }}
       >
