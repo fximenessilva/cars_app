@@ -1,8 +1,8 @@
-import { useState, lazy, useCallback, useEffect } from "react";
+import { useState, lazy, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import Button from "@components/common/Button";
-import { setter, remover, getter } from "@utils/localStorageHelpers";
+import { setter, remover } from "@utils/localStorageHelpers";
 import { NAMESPACES } from "@utils/constants";
 import { useAppContext } from "@contexts/AppContext";
 import { useUsersContext } from "@contexts/UsersContext";
@@ -16,7 +16,7 @@ const LoginForm = lazy(() =>
   }))
 );
 
-const LOGGED_USER = getter(NAMESPACES.user);
+const FAKE_API_CALLS_MS = 1000;
 
 const Home = () => {
   const { darkMode, setLoggedUser, loggedUser, userInitialState } =
@@ -29,21 +29,39 @@ const Home = () => {
 
   const [hover, setHover] = useState("mid");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [btnContent, setBtnContent] = useState(<>Log in</>);
+
+  useEffect(() => {
+    if (loading) {
+      setBtnContent(<i className="fa-solid fa-spinner fa-spin" />);
+    }
+  }, [loading]);
 
   const closeHandler = () => setOpen(false);
 
   const submitHandler = (values: { email: string }) => {
-    const foundUser = findUser(values.email);
-    if (foundUser) {
-      setLoggedUser({ user: foundUser, isLogged: true });
-      setter(NAMESPACES.user, { user: foundUser });
-    }
+    setLoading(true);
+    setTimeout(() => {
+      const foundUser = findUser(values.email);
+      if (foundUser) {
+        setLoggedUser({ user: foundUser, isLogged: true });
+        setter(NAMESPACES.user, { user: foundUser });
+      }
+      setLoading(false);
+      setBtnContent(<>Log out</>);
+    }, FAKE_API_CALLS_MS);
   };
 
   const onLoginHandler = () => setOpen(true);
   const onLogOutHandler = () => {
-    setLoggedUser({ user: { ...userInitialState }, isLogged: false });
-    remover(NAMESPACES.user);
+    setLoading(true);
+    setTimeout(() => {
+      setLoggedUser({ user: { ...userInitialState }, isLogged: false });
+      remover(NAMESPACES.user);
+      setLoading(false);
+      setBtnContent(<>Log in</>);
+    }, FAKE_API_CALLS_MS);
   };
 
   const findUser = (email: string) =>
@@ -58,7 +76,7 @@ const Home = () => {
               Welcome, {loggedUser.user.name} 👋
             </h2>
             <Button theme={theme} type="button" onClick={onLogOutHandler}>
-              Log out
+              {btnContent}
             </Button>
           </div>
         ) : (
@@ -68,7 +86,7 @@ const Home = () => {
             type="button"
             onClick={onLoginHandler}
           >
-            Log in
+            {btnContent}
           </Button>
         )}
       </div>
