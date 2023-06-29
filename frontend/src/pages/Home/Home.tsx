@@ -127,7 +127,7 @@ const Home = () => {
         })}
       </div>
       {open && (
-        <FormModal isOpen={open} onClose={closeHandler} title="">
+        <FormModal isOpen={open} onClose={closeHandler} title="Log in">
           <LoginForm
             onSubmit={submitHandler}
             onClose={closeHandler}

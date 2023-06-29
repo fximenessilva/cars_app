@@ -10,6 +10,7 @@ import {
 } from "react";
 
 import { setter, getter } from "@utils/localStorageHelpers";
+import { useUsersContext } from "./UsersContext";
 import { NAMESPACES } from "@utils/constants";
 
 import dataCars from "@data/cars.json";
@@ -30,6 +31,7 @@ interface CarsState {
 interface CarsContextProps {
   state: CarsState;
   dispatch: Dispatch<any>;
+  deleteCar: (carId: number) => void;
 }
 
 const CarsContext = createContext<CarsContextProps | undefined>(undefined);
@@ -85,6 +87,11 @@ interface CarsProviderProps {
 const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(carsReducer, INITIAL_STATE);
 
+  const {
+    state: { users },
+    dispatch: usersDispatch,
+  } = useUsersContext();
+
   useEffect(() => {
     const cars = getter(NAMESPACES.cars);
     if (cars) {
@@ -95,8 +102,23 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const deleteCar = (carId: number) => {
+    const filteredCars = state.cars.filter((car) => car.id !== carId);
+    dispatch({ type: "SET_CARS", payload: filteredCars });
+    setter(NAMESPACES.cars, filteredCars);
+    removeCarFromFavorites(carId);
+  };
+
+  const removeCarFromFavorites = (carId?: number) => {
+    const newUsersList = users.map((user) => ({
+      ...user,
+      favorite_cars: user.favorite_cars.filter((id) => id !== carId),
+    }));
+    usersDispatch({ type: "SET_USERS", payload: newUsersList });
+  };
+
   return (
-    <CarsContext.Provider value={{ state, dispatch }}>
+    <CarsContext.Provider value={{ state, dispatch, deleteCar }}>
       {children}
     </CarsContext.Provider>
   );
@@ -113,6 +135,7 @@ const useCarsContext = (): CarsContextProps => {
         isEdit: { edit: false, values: {} },
       },
       dispatch: () => {},
+      deleteCar: () => {},
     };
   }
   return context;

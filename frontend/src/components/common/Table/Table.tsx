@@ -2,6 +2,7 @@ import { FC, useMemo } from "react";
 
 import { useAppContext } from "@contexts/AppContext";
 import { useUsersContext } from "@contexts/UsersContext";
+import { useCarsContext } from "@contexts/CarsContext";
 import styles from "./table.module.scss";
 
 interface TableProps {
@@ -29,6 +30,7 @@ const Table: FC<TableProps> = ({
   const { darkMode } = useAppContext();
 
   const { setFavorite } = useUsersContext();
+  const { deleteCar } = useCarsContext();
 
   const orderedData = useMemo(
     () =>
@@ -65,8 +67,8 @@ const Table: FC<TableProps> = ({
                 const isLast = column === " ";
                 return (
                   <td className={`${styles.td}`} key={index}>
-                    {isLast && (
-                      <div>
+                    {isLast && user?.id && (
+                      <div className={styles.actions}>
                         <span
                           onClick={() => setEdit({ values: row, edit: true })}
                           className={styles.edit}
@@ -74,24 +76,32 @@ const Table: FC<TableProps> = ({
                           Edit
                         </span>
                         {isCarsTable && (
-                          <span
-                            onClick={() =>
-                              setFavorite(
-                                row.id,
-                                user,
-                                user.favorite_cars?.includes(row.id)
-                              )
-                            }
-                            className={styles.favorite}
-                          >
-                            <i
-                              className={`fa-${
-                                user.favorite_cars?.includes(row.id)
-                                  ? "solid"
-                                  : "regular"
-                              } fa-star`}
-                            />
-                          </span>
+                          <>
+                            <span
+                              onClick={() =>
+                                setFavorite(
+                                  row.id,
+                                  user,
+                                  user.favorite_cars?.includes(row.id)
+                                )
+                              }
+                              className={styles.favorite}
+                            >
+                              <i
+                                className={`fa-${
+                                  user.favorite_cars?.includes(row.id)
+                                    ? "solid"
+                                    : "regular"
+                                } fa-star`}
+                              />
+                            </span>
+                            <span
+                              onClick={() => deleteCar(row.id)}
+                              className={styles.delete}
+                            >
+                              <i className="fa-solid fa-trash" />
+                            </span>
+                          </>
                         )}
                       </div>
                     )}
@@ -100,7 +110,9 @@ const Table: FC<TableProps> = ({
                     ) : (
                       <ul>
                         {row[column].map((el: string, i: number) => (
-                          <li key={`${el}-${i}`}>{el}</li>
+                          <li className={styles.car} key={`${el}-${i}`}>
+                            {el}
+                          </li>
                         ))}
                       </ul>
                     )}
