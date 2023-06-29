@@ -7,8 +7,10 @@ import { NAMESPACES } from "@utils/constants";
 import { useAppContext } from "@contexts/AppContext";
 import { useUsersContext } from "@contexts/UsersContext";
 import { ROUTES_LINKS } from "@utils/constants";
+
 import styles from "./home.module.scss";
 
+const Snackbar = lazy(() => import("@components/common/Modal/Snackbar"));
 const FormModal = lazy(() => import("@components/common/Modal/FormModal"));
 const LoginForm = lazy(() =>
   import("@components/common/Form").then((module) => ({
@@ -28,6 +30,7 @@ const Home = () => {
     setLoading,
     btnContent,
     setBtnContent,
+    snackbarProps,
   } = useAppContext();
 
   const { emailsArr, state } = useUsersContext();
@@ -133,6 +136,7 @@ const Home = () => {
           />
         </FormModal>
       )}
+      <Snackbar {...snackbarProps} />
     </section>
   );
 };
