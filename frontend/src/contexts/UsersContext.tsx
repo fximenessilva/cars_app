@@ -83,7 +83,7 @@ const FAVORITES_LIMIT = 3;
 const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(usersReducer, INITIAL_STATE);
 
-  const { setLoggedUser } = useAppContext();
+  const { setLoggedUser, setSnackbarProps, snackbarProps } = useAppContext();
 
   const users = getter(NAMESPACES.users);
 
@@ -146,8 +146,13 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
     ) {
       removeFavorite(carId, user);
     } else {
-      // falta implementar
-      console.log("you reached favorites limit");
+      setSnackbarProps({
+        ...snackbarProps,
+        open: true,
+        message: "You reached the limit of favorites",
+        error: true,
+        onClose: () => setSnackbarProps({ ...snackbarProps, open: false }),
+      });
     }
   };
 

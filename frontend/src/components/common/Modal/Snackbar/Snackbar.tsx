@@ -21,13 +21,6 @@ const Snackbar: FC<SnackbarProps> = ({
   const [isOpen, setIsOpen] = useState(open);
 
   useEffect(() => {
-    document.body.classList.add("hidden-overflow");
-    return () => {
-      document.body.classList.remove("hidden-overflow");
-    };
-  }, []);
-
-  useEffect(() => {
     setIsOpen(open);
   }, [open]);
 
