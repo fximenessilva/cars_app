@@ -8,6 +8,7 @@ import List from "@components/common/List";
 import PageHead from "@components/common/PageHead";
 import styles from "./carsList.module.scss";
 
+const Snackbar = lazy(() => import("@components/common/Modal/Snackbar"));
 const FormModal = lazy(() => import("@components/common/Modal/FormModal"));
 const CarsForm = lazy(() =>
   import("@components/common/Form").then((module) => ({
@@ -29,6 +30,7 @@ const CarsList = () => {
   const {
     darkMode,
     loggedUser: { isLogged, user },
+    snackbarProps,
   } = useAppContext();
   const { state, dispatch } = useCarsContext();
 
@@ -184,6 +186,7 @@ const CarsList = () => {
           ></CarsForm>
         </FormModal>
       )}
+      {snackbarProps.open && <Snackbar {...snackbarProps} />}
     </section>
   );
 };
