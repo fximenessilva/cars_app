@@ -9,8 +9,8 @@ interface NotFoundDataProps {
 const NotFoundData: FC<NotFoundDataProps> = ({ typeOfData, searchTerm }) => {
   return (
     <p className={styles.txt}>
-      Could not find {typeOfData} matching "{searchTerm}". <br />
-      Please try other options
+      Could not find {typeOfData}s matching "{searchTerm}". <br />
+      Please try other options or create new {typeOfData}.
     </p>
   );
 };

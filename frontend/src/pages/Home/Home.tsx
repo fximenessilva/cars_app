@@ -83,7 +83,7 @@ const Home = () => {
         {loggedUser.isLogged ? (
           <div className={styles["msg-logout-wrapper"]}>
             <h2 className={`${styles["page-ttl"]} page-ttl `}>
-              Welcome, {loggedUser.user.name} 👋
+              Welcome, {loggedUser.user?.name} 👋
             </h2>
             <Button theme={theme} type="button" onClick={onLogOutHandler}>
               {btnContent}

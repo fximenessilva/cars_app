@@ -116,7 +116,7 @@ const CarsList = () => {
 
   const createNewCar = (values: Car) => {
     //get the id of the last item on the array
-    const lastId = cars[cars.length - 1].id + 1;
+    const lastId = cars?.[cars.length - 1]?.id + 1 || 1;
     const setVals = { id: lastId, name: values.model, brand: values.brand };
     const newArr = [...cars, setVals];
     dispatch({ type: "SET_CARS", payload: newArr });
@@ -172,7 +172,7 @@ const CarsList = () => {
         searchTerm={searchTerm}
         setEdit={setEditHandler}
         isEdit={isEdit.edit}
-        typeOfData="cars"
+        typeOfData="car"
         user={user || {}}
       />
       {open && (
