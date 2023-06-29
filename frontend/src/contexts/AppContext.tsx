@@ -34,6 +34,14 @@ const USER_INITIAL_STATE: User = {
   favorite_cars: [],
 };
 
+const SNACKBAR_INITIAL_STATE = {
+  open: false,
+  onClose: () => {},
+  message: "",
+  error: false,
+  success: false,
+};
+
 export const AppContext = createContext<{
   darkMode: boolean;
   setDarkMode: Dispatch<SetStateAction<boolean>>;
@@ -44,17 +52,14 @@ export const AppContext = createContext<{
   setLoading: Dispatch<SetStateAction<boolean>>;
   btnContent: ReactNode;
   setBtnContent: Dispatch<SetStateAction<any>>;
+  snackbarProps: any;
+  setSnackbarProps: Dispatch<SetStateAction<any>>;
 }>({
   darkMode: false,
   setDarkMode: () => {},
   loggedUser: {
     isLogged: false,
-    user: {
-      id: null,
-      name: "",
-      email: "",
-      favorite_cars: [],
-    },
+    user: USER_INITIAL_STATE,
   },
   setLoggedUser: () => {},
   userInitialState: USER_INITIAL_STATE,
@@ -62,6 +67,8 @@ export const AppContext = createContext<{
   setLoading: () => {},
   btnContent: <></>,
   setBtnContent: () => {},
+  snackbarProps: SNACKBAR_INITIAL_STATE,
+  setSnackbarProps: () => {},
 });
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -72,6 +79,8 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     isLogged: false,
     user: { ...USER_INITIAL_STATE },
   });
+
+  const [snackbarProps, setSnackbarProps] = useState(SNACKBAR_INITIAL_STATE);
 
   useEffect(() => {
     if (!THEME_SELECTED) {
@@ -99,6 +108,8 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
           btnContent,
           setBtnContent,
           userInitialState: USER_INITIAL_STATE,
+          snackbarProps,
+          setSnackbarProps,
         }}
       >
         {children}
