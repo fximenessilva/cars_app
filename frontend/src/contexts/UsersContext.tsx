@@ -10,6 +10,7 @@ import {
   useMemo,
 } from "react";
 
+import { useAppContext } from "./AppContext";
 import { setter, getter } from "@utils/localStorageHelpers";
 import { NAMESPACES } from "@utils/constants";
 
@@ -32,6 +33,7 @@ interface UsersContextProps {
   state: UsersState;
   dispatch: Dispatch<any>;
   emailsArr: string[];
+  setFavorite: (carId: number, userFavorites: number[], user: any) => void;
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
@@ -76,25 +78,81 @@ interface UsersProviderProps {
   children: ReactNode;
 }
 
+const FAVORITES_LIMIT = 3;
+
 const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(usersReducer, INITIAL_STATE);
 
+  const { setLoggedUser } = useAppContext();
+
+  const users = getter(NAMESPACES.users);
+
   useEffect(() => {
-    const users = getter(NAMESPACES.users);
     if (users) {
       dispatch({ type: "SET_USERS", payload: users });
     } else {
       setter(NAMESPACES.users, dataUsers.usuarios);
+      dispatch({ type: "SET_USERS", payload: dataUsers.usuarios });
     }
   }, []);
 
-  const emailsArr = useMemo(
-    () => state.users.map(({ email }): string => email.toLowerCase()),
-    [state.users]
-  );
+  const getUsersEmails = (list: any) =>
+    list.map(({ email }: any) => email.toLowerCase());
+
+  const emailsArr = state.users.length
+    ? getUsersEmails(state.users)
+    : getUsersEmails(dataUsers.usuarios);
+
+  const setData = ({ newUserObj, newUsersList }: any) => {
+    setLoggedUser({ isLogged: true, user: newUserObj });
+    setter(NAMESPACES.users, newUsersList);
+    setter(NAMESPACES.user, { user: newUserObj });
+    dispatch({ type: "SET_USERS", payload: newUsersList });
+  };
+
+  const removeFavorite = (carId: number, user: any) => {
+    const newFavorites = user.favorite_cars.filter(
+      (el: number) => el !== carId
+    );
+    const usersListCopy = [...users.filter((el: any) => el.id !== user.id)];
+    const newUserObj = { ...user, favorite_cars: newFavorites };
+    const newUsersList = [...usersListCopy, newUserObj];
+
+    setData({ newUserObj, newUsersList });
+  };
+
+  const addFavorite = (carId: number, user: any) => {
+    user.favorite_cars.push(carId);
+
+    const usersListCopy = [...users.filter((el: any) => el.id !== user.id)];
+    const newUserObj = { ...user, favorite_cars: user.favorite_cars };
+    const newUsersList = [...usersListCopy, newUserObj];
+
+    setData({ newUserObj, newUsersList });
+  };
+
+  const setFavorite = (carId: number, user: any, isFavorite?: boolean) => {
+    const { favorite_cars } = user;
+    if (favorite_cars && favorite_cars.length < FAVORITES_LIMIT) {
+      if (isFavorite) {
+        removeFavorite(carId, user);
+      } else {
+        addFavorite(carId, user);
+      }
+    } else if (
+      favorite_cars &&
+      favorite_cars.length === FAVORITES_LIMIT &&
+      isFavorite
+    ) {
+      removeFavorite(carId, user);
+    } else {
+      // falta implementar
+      console.log("you reached favorites limit");
+    }
+  };
 
   return (
-    <UsersContext.Provider value={{ state, dispatch, emailsArr }}>
+    <UsersContext.Provider value={{ state, dispatch, emailsArr, setFavorite }}>
       {children}
     </UsersContext.Provider>
   );
@@ -106,6 +164,7 @@ const useUsersContext = (): UsersContextProps => {
     return {
       state: { users: [], searchTerm: "", isEdit: { edit: false, values: {} } },
       dispatch: () => {},
+      setFavorite: () => {},
       emailsArr: [],
     };
   }
