@@ -22,7 +22,9 @@
   .tr {
     background-color: map-get($colors-dark, primary-low-op);
   }
-  .edit:hover {
+  .edit:hover,
+  .favorite:hover,
+  .delete:hover {
     color: map-get($colors-dark, secondary);
   }
 }
@@ -31,7 +33,9 @@
   .tr {
     background-color: map-get($colors-light, primary-low-op);
   }
-  .edit:hover {
+  .edit:hover,
+  .favorite:hover,
+  .delete:hover {
     color: map-get($colors-light, secondary);
   }
 }
@@ -57,13 +61,16 @@
   padding-right: 1.5rem;
 }
 
-.edit {
+.actions {
   padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.3s;
+  @include flex(row, center);
+  gap: 1rem;
 }
 
-.favorite {
+.edit,
+.favorite,
+.delete {
+  transition: all 0.3s;
   cursor: pointer;
 }
 
@@ -86,4 +93,8 @@
   .td:last-child {
     padding-left: 2rem;
   }
+}
+
+.car {
+  font-size: 14px;
 }

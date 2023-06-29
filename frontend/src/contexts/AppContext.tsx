@@ -91,6 +91,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     if (LOGGED_USER) {
       setLoggedUser({ isLogged: true, user: LOGGED_USER.user });
+      setBtnContent(<>Log out</>);
     }
   }, []);
 
