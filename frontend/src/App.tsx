@@ -5,6 +5,7 @@ import Wrapper from "@components/utils/Wrapper";
 import Home from "@pages/Home";
 import CarsList from "@pages/CarsList";
 import UsersList from "@pages/UsersList";
+import Loading from "@components/common/Loading";
 import "@styles/app.scss";
 import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -15,7 +16,7 @@ function App() {
         <Route
           path="/"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <Home />
             </Suspense>
           }
@@ -23,7 +24,7 @@ function App() {
         <Route
           path="/cars"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <CarsList />
             </Suspense>
           }
@@ -31,7 +32,7 @@ function App() {
         <Route
           path="/users"
           element={
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<Loading />}>
               <UsersList />
             </Suspense>
           }
