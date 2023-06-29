@@ -1,6 +1,7 @@
 import { FC, useMemo } from "react";
 
 import { useAppContext } from "@contexts/AppContext";
+import { useUsersContext } from "@contexts/UsersContext";
 import styles from "./table.module.scss";
 
 interface TableProps {
@@ -14,10 +15,21 @@ interface TableProps {
   }[];
   setEdit: (values: any) => void;
   isEdit: boolean;
+  typeOfData: string;
+  user?: any;
 }
 
-const Table: FC<TableProps> = ({ columns, data, setEdit }) => {
+const Table: FC<TableProps> = ({
+  columns,
+  data,
+  setEdit,
+  typeOfData,
+  user,
+}) => {
   const { darkMode } = useAppContext();
+
+  const { setFavorite } = useUsersContext();
+
   const orderedData = useMemo(
     () =>
       data.sort(
@@ -27,6 +39,8 @@ const Table: FC<TableProps> = ({ columns, data, setEdit }) => {
       ),
     [data]
   );
+
+  const isCarsTable = typeOfData === "cars";
 
   return (
     <div className={styles.wrapper}>
@@ -49,16 +63,37 @@ const Table: FC<TableProps> = ({ columns, data, setEdit }) => {
               {columns.map((column, index) => {
                 const isList = typeof row[column] === "object";
                 const isLast = column === " ";
-
                 return (
                   <td className={`${styles.td}`} key={index}>
                     {isLast && (
-                      <span
-                        onClick={() => setEdit({ values: row, edit: true })}
-                        className={styles.edit}
-                      >
-                        Edit
-                      </span>
+                      <div>
+                        <span
+                          onClick={() => setEdit({ values: row, edit: true })}
+                          className={styles.edit}
+                        >
+                          Edit
+                        </span>
+                        {isCarsTable && (
+                          <span
+                            onClick={() =>
+                              setFavorite(
+                                row.id,
+                                user,
+                                user.favorite_cars?.includes(row.id)
+                              )
+                            }
+                            className={styles.favorite}
+                          >
+                            <i
+                              className={`fa-${
+                                user.favorite_cars?.includes(row.id)
+                                  ? "solid"
+                                  : "regular"
+                              } fa-star`}
+                            />
+                          </span>
+                        )}
+                      </div>
                     )}
                     {!isList ? (
                       <div>{row[column]}</div>

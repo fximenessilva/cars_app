@@ -3,7 +3,7 @@
 
 .wrapper {
   @include flex(row);
-  min-height: 80vh;
+  min-height: 60vh;
   width: 100%;
   gap: 20px;
   padding: 2rem 0 3rem;

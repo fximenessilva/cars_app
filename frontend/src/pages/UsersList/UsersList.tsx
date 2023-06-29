@@ -102,6 +102,7 @@ const UsersList = () => {
         searchTerm={searchTerm}
         setEdit={setEditHandler}
         isEdit={isEdit.edit}
+        typeOfData="users"
       />
 
       {open && (

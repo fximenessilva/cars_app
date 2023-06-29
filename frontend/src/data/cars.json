@@ -7,6 +7,6 @@
     { "id": 5, "name": "Panda", "brand": "Fiat" },
     { "id": 6, "name": "X-Type", "brand": "Jaguar" },
     { "id": 7, "name": "Polo", "brand": "VW" },
-    { "id": 8, "name": "A3", "brand": "Audio" }
+    { "id": 8, "name": "A3", "brand": "Audi" }
   ]
 }

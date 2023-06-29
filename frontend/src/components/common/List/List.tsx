@@ -15,13 +15,30 @@ interface ListProps {
   searchTerm: string;
   setEdit: (values: any) => void;
   isEdit: boolean;
+  typeOfData: string;
+  user?: any;
 }
 
-const List: FC<ListProps> = ({ list, columns, searchTerm, setEdit, isEdit }) =>
+const List: FC<ListProps> = ({
+  list,
+  columns,
+  searchTerm,
+  setEdit,
+  isEdit,
+  typeOfData,
+  user,
+}) =>
   list.length ? (
-    <Table columns={columns} data={list} setEdit={setEdit} isEdit={isEdit} />
+    <Table
+      columns={columns}
+      data={list}
+      typeOfData={typeOfData}
+      setEdit={setEdit}
+      isEdit={isEdit}
+      user={user}
+    />
   ) : (
-    <NotFoundData typeOfData="cars" searchTerm={searchTerm} />
+    <NotFoundData typeOfData={typeOfData} searchTerm={searchTerm} />
   );
 
 export default List;
