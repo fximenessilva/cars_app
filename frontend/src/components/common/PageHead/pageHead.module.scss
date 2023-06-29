@@ -27,3 +27,17 @@
   font-size: 18px;
   transition: 0.3s;
 }
+
+@media screen and (max-width: 900px) {
+  .filters {
+    @include flex(column, flex-start);
+  }
+  .bottom-row {
+    align-items: flex-start;
+    :global {
+      .txt-input {
+        width: 183px;
+      }
+    }
+  }
+}

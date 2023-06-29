@@ -56,11 +56,18 @@
     padding: 1.5rem 3rem;
     width: calc(100% - 6rem);
   }
+  .nav {
+    margin-right: 0;
+    gap: 2rem;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .header {
     padding: 1.25rem 2rem;
     width: calc(100% - 4rem);
+  }
+  .nav {
+    display: none;
   }
 }
