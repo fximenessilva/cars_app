@@ -11,6 +11,7 @@ import {
 
 import { setter, getter } from "@utils/localStorageHelpers";
 import { useUsersContext } from "./UsersContext";
+import { useAppContext } from "./AppContext";
 import { NAMESPACES } from "@utils/constants";
 
 import dataCars from "@data/cars.json";
@@ -92,6 +93,10 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
     dispatch: usersDispatch,
   } = useUsersContext();
 
+  const {
+    loggedUser: { user },
+  } = useAppContext();
+
   useEffect(() => {
     const cars = getter(NAMESPACES.cars);
     if (cars) {
@@ -114,7 +119,13 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
       ...user,
       favorite_cars: user.favorite_cars.filter((id) => id !== carId),
     }));
+    const newUserObj = {
+      ...user,
+      favorite_cars: user.favorite_cars.filter((id) => id !== carId),
+    };
     usersDispatch({ type: "SET_USERS", payload: newUsersList });
+    setter(NAMESPACES.users, newUsersList);
+    setter(NAMESPACES.user, newUserObj);
   };
 
   return (
