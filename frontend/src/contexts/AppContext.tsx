@@ -106,7 +106,6 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setBtnContent({ primary: <>Log in</>, secondary: <>Initial data</> });
   };
 
-  console.log(btnContent);
   const appClassName = `app ${darkMode ? "dark-mode" : "light-mode"}`;
   return (
     <div className={appClassName}>
