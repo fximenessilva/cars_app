@@ -28,7 +28,7 @@ const UsersForm: FC<FormProps> = ({ theme, onClose, onSubmit, emailsArr }) => {
     name: Yup.string().required("*Name is required"),
     email: Yup.string()
       .required("*Email is required")
-      .test("email", "*Email name already exists", categoryEmail),
+      .test("email", "*Email already exists", categoryEmail),
   });
 
   const submitHandler = (values: any) => {
