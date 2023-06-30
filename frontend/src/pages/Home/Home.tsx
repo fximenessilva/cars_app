@@ -5,6 +5,7 @@ import Button from "@components/common/Button";
 import { setter, remover } from "@utils/localStorageHelpers";
 import { NAMESPACES } from "@utils/constants";
 import { useAppContext } from "@contexts/AppContext";
+import { useCarsContext } from "@contexts/CarsContext";
 import { useUsersContext } from "@contexts/UsersContext";
 import { ROUTES_LINKS } from "@utils/constants";
 
@@ -18,7 +19,7 @@ const LoginForm = lazy(() =>
   }))
 );
 
-const FAKE_API_CALLS_MS = 1000;
+const FAKE_API_CALLS_MS = 600;
 
 const Home = () => {
   const {
@@ -31,46 +32,77 @@ const Home = () => {
     btnContent,
     setBtnContent,
     snackbarProps,
+    setSnackbarProps,
   } = useAppContext();
 
-  const { emailsArr, state } = useUsersContext();
+  const { emailsArr, state, setInitialUsers } = useUsersContext();
+
+  const { setInitialCars } = useCarsContext();
 
   const { users } = state;
 
-  const theme = darkMode ? "dark" : "light";
+  const primaryTheme = darkMode ? "dark" : "light";
+  const secondaryTheme = darkMode ? "light" : "dark";
 
   const [hover, setHover] = useState("mid");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (loading) {
-      setBtnContent(<i className="fa-solid fa-spinner fa-spin" />);
+    if (loading.primary) {
+      setBtnContent({
+        ...btnContent,
+        primary: <i className="fa-solid fa-spinner fa-spin" />,
+      });
     }
-  }, [loading]);
+    if (loading.secondary) {
+      setBtnContent({
+        ...btnContent,
+        secondary: <i className="fa-solid fa-spinner fa-spin" />,
+      });
+    }
+  }, [loading.primary, loading.secondary]);
 
   const closeHandler = () => setOpen(false);
 
   const submitHandler = (values: { email: string }) => {
-    setLoading(true);
+    setLoading({ ...loading, primary: true });
     setTimeout(() => {
       const foundUser = findUser(values.email);
       if (foundUser) {
         setLoggedUser({ user: foundUser, isLogged: true });
         setter(NAMESPACES.user, { user: foundUser });
       }
-      setLoading(false);
-      setBtnContent(<>Log out</>);
+      setLoading({ ...loading, primary: false });
+      setBtnContent({ ...btnContent, primary: <>Log out</> });
     }, FAKE_API_CALLS_MS);
   };
 
   const onLoginHandler = () => setOpen(true);
   const onLogOutHandler = () => {
-    setLoading(true);
+    setLoading({ ...loading, primary: true });
     setTimeout(() => {
       setLoggedUser({ user: { ...userInitialState }, isLogged: false });
       remover(NAMESPACES.user);
-      setLoading(false);
-      setBtnContent(<>Log in</>);
+      setLoading({ ...loading, primary: false });
+      setBtnContent({ ...btnContent, primary: <>Log in</> });
+    }, FAKE_API_CALLS_MS);
+  };
+
+  const handleInitialData = () => {
+    setLoading({ ...loading, secondary: true });
+    setTimeout(() => {
+      setInitialUsers();
+      setInitialCars();
+      setLoading({ ...loading, secondary: false });
+      setBtnContent({ ...btnContent, secondary: <>Initial data</> });
+
+      setSnackbarProps({
+        ...snackbarProps,
+        open: true,
+        message: "Success setting the data",
+        success: true,
+        onClose: () => setSnackbarProps({ ...snackbarProps, open: false }),
+      });
     }, FAKE_API_CALLS_MS);
   };
 
@@ -83,20 +115,33 @@ const Home = () => {
         {loggedUser.isLogged ? (
           <div className={styles["msg-logout-wrapper"]}>
             <h2 className={`${styles["page-ttl"]} page-ttl `}>
-              Welcome, {loggedUser.user.name} 👋
+              Welcome, {loggedUser.user?.name} 👋
             </h2>
-            <Button theme={theme} type="button" onClick={onLogOutHandler}>
-              {btnContent}
-            </Button>
+            <div className={styles["buttons-wrapper"]}>
+              <Button
+                theme={secondaryTheme}
+                type="button"
+                onClick={handleInitialData}
+              >
+                {btnContent.secondary}
+              </Button>
+              <Button
+                theme={primaryTheme}
+                type="button"
+                onClick={onLogOutHandler}
+              >
+                {btnContent.primary}
+              </Button>
+            </div>
           </div>
         ) : (
           <Button
             className={styles["login-btn"]}
-            theme={theme}
+            theme={primaryTheme}
             type="button"
             onClick={onLoginHandler}
           >
-            {btnContent}
+            {btnContent.primary}
           </Button>
         )}
       </div>
@@ -131,7 +176,7 @@ const Home = () => {
           <LoginForm
             onSubmit={submitHandler}
             onClose={closeHandler}
-            theme={theme}
+            theme={primaryTheme}
             emailsArr={emailsArr}
           />
         </FormModal>

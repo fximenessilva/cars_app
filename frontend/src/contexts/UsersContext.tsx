@@ -33,7 +33,9 @@ interface UsersContextProps {
   state: UsersState;
   dispatch: Dispatch<any>;
   emailsArr: string[];
+  setInitialUsers: () => void;
   setFavorite: (carId: number, userFavorites: number[], user: any) => void;
+  favoritesLimit: number;
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
@@ -87,12 +89,16 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
 
   const users = getter(NAMESPACES.users);
 
+  const setInitialUsers = () => {
+    setter(NAMESPACES.users, dataUsers.usuarios);
+    dispatch({ type: "SET_USERS", payload: dataUsers.usuarios });
+  };
+
   useEffect(() => {
     if (users) {
       dispatch({ type: "SET_USERS", payload: users });
     } else {
-      setter(NAMESPACES.users, dataUsers.usuarios);
-      dispatch({ type: "SET_USERS", payload: dataUsers.usuarios });
+      setInitialUsers();
     }
   }, []);
 
@@ -157,7 +163,16 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
   };
 
   return (
-    <UsersContext.Provider value={{ state, dispatch, emailsArr, setFavorite }}>
+    <UsersContext.Provider
+      value={{
+        state,
+        dispatch,
+        emailsArr,
+        setFavorite,
+        setInitialUsers,
+        favoritesLimit: FAVORITES_LIMIT,
+      }}
+    >
       {children}
     </UsersContext.Provider>
   );
@@ -170,7 +185,9 @@ const useUsersContext = (): UsersContextProps => {
       state: { users: [], searchTerm: "", isEdit: { edit: false, values: {} } },
       dispatch: () => {},
       setFavorite: () => {},
+      setInitialUsers: () => {},
       emailsArr: [],
+      favoritesLimit: FAVORITES_LIMIT,
     };
   }
   return context;

@@ -6,16 +6,6 @@
   padding-bottom: 3rem;
 }
 
-// .dark {
-//   color: map-get($colors-light, primary);
-//   background-color: map-get($colors-light, background-primary);
-// }
-
-// .light {
-//   color: map-get($colors-dark, primary);
-//   background-color: map-get($colors-dark, background-primary);
-// }
-
 .icons {
   padding: 2rem 0 2rem;
   i {
@@ -34,4 +24,14 @@
 
 .last-row {
   text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    padding-top: 45px !important;
+  }
+
+  .icons {
+    padding: 0 0 2rem;
+  }
 }

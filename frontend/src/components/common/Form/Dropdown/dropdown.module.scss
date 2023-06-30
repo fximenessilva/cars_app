@@ -1,2 +1,14 @@
 @import "../../../../styles/utils/mixins";
 @import "../../../../styles/utils/variables";
+
+.label,
+.error {
+  display: flex;
+  margin: 0 0 0.5rem;
+}
+
+.error {
+  color: map-get($colors, primary-error);
+  font-size: 12px;
+  margin-top: 0.25rem;
+}

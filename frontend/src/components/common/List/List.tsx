@@ -7,7 +7,7 @@ interface ListProps {
   list: {
     name?: string;
     email?: string;
-    favorite_cars?: string[];
+    favorite_cars?: any[];
     id?: number;
     brand?: string;
   }[];

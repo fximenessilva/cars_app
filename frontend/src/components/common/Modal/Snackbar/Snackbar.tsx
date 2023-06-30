@@ -45,7 +45,13 @@ const Snackbar: FC<SnackbarProps> = ({
   return (
     isOpen && (
       <>
-        <div className={modalStyles.darkBG} onClick={() => setIsOpen(false)} />
+        <div
+          className={modalStyles.darkBG}
+          onClick={() => {
+            setIsOpen(false);
+            onClose();
+          }}
+        />
         <div className={styles.position}>
           <div className={styles.modal}>
             <div className={styles["message-wrapper"]}>

@@ -1,6 +1,8 @@
 import React, { FC, ChangeEvent } from "react";
 import Select, { components } from "react-select";
 
+import styles from "./dropdown.module.scss";
+
 const NoOptionsMessage = (props: any) => {
   return (
     <components.NoOptionsMessage {...props}>
@@ -23,6 +25,7 @@ interface MultiSelectProps {
   defaultValue?: Option | Option[];
   handleChange?: any;
   value?: Option | Option[] | null;
+  error?: any;
 }
 
 const MultiSelect: FC<MultiSelectProps> = ({
@@ -34,6 +37,7 @@ const MultiSelect: FC<MultiSelectProps> = ({
   defaultValue,
   handleChange,
   value,
+  error,
 }) => {
   const style = {
     control: (base: any) => ({
@@ -45,6 +49,9 @@ const MultiSelect: FC<MultiSelectProps> = ({
       fontFamily: "Open Sans",
       padding: "0px 4px",
       borderRadius: "8px",
+      maxHeight: "140px",
+      overflowY: "scroll",
+      textAlign: "left",
       minWidth: "200px",
       textTransform: "capitalize",
       letterSpacing: "0.5px",
@@ -59,6 +66,7 @@ const MultiSelect: FC<MultiSelectProps> = ({
       fontSize: "14px",
       color: "#051730 !important",
       textTransform: "capitalize",
+      textAlign: "left",
       "&:hover": {
         backgroundColor: "#DCDEE0",
       },
@@ -95,7 +103,7 @@ const MultiSelect: FC<MultiSelectProps> = ({
 
   return (
     <div className="multiselect-group">
-      {label && <label>{label}</label>}
+      {label && <label className={styles.label}>{label}</label>}
       <Select
         components={{ NoOptionsMessage }}
         isSearchable={false}
@@ -106,8 +114,10 @@ const MultiSelect: FC<MultiSelectProps> = ({
         isMulti={isMulti}
         options={options}
         onChange={handleChange}
+        value={value}
         // menuIsOpen
       />
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 };

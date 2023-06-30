@@ -11,6 +11,7 @@ import {
 
 import { setter, getter } from "@utils/localStorageHelpers";
 import { useUsersContext } from "./UsersContext";
+import { useAppContext } from "./AppContext";
 import { NAMESPACES } from "@utils/constants";
 
 import dataCars from "@data/cars.json";
@@ -32,6 +33,7 @@ interface CarsContextProps {
   state: CarsState;
   dispatch: Dispatch<any>;
   deleteCar: (carId: number) => void;
+  setInitialCars: () => void;
 }
 
 const CarsContext = createContext<CarsContextProps | undefined>(undefined);
@@ -92,8 +94,19 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
     dispatch: usersDispatch,
   } = useUsersContext();
 
+  const {
+    loggedUser: { user },
+    setLoggedUser,
+  } = useAppContext();
+
+  const cars = getter(NAMESPACES.cars);
+
+  const setInitialCars = () => {
+    setter(NAMESPACES.cars, dataCars.coches);
+    dispatch({ type: "SET_CARS", payload: dataCars.coches });
+  };
+
   useEffect(() => {
-    const cars = getter(NAMESPACES.cars);
     if (cars) {
       dispatch({ type: "SET_CARS", payload: cars });
     } else {
@@ -114,11 +127,20 @@ const CarsProvider: FC<CarsProviderProps> = ({ children }) => {
       ...user,
       favorite_cars: user.favorite_cars.filter((id) => id !== carId),
     }));
+    const newUserObj = {
+      ...user,
+      favorite_cars: user.favorite_cars.filter((id) => id !== carId),
+    };
     usersDispatch({ type: "SET_USERS", payload: newUsersList });
+    setter(NAMESPACES.users, newUsersList);
+    setter(NAMESPACES.user, { user: newUserObj });
+    setLoggedUser({ isLogged: true, user: newUserObj });
   };
 
   return (
-    <CarsContext.Provider value={{ state, dispatch, deleteCar }}>
+    <CarsContext.Provider
+      value={{ state, dispatch, deleteCar, setInitialCars }}
+    >
       {children}
     </CarsContext.Provider>
   );
@@ -136,6 +158,7 @@ const useCarsContext = (): CarsContextProps => {
       },
       dispatch: () => {},
       deleteCar: () => {},
+      setInitialCars: () => {},
     };
   }
   return context;
