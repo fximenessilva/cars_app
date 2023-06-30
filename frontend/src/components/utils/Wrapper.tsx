@@ -1,5 +1,6 @@
 import { ReactNode, FC } from "react";
 
+import ErrorBoundary from "./ErrorBoundary";
 import AppProvider from "@contexts/AppContext";
 import CarsProvider from "@contexts/CarsContext";
 import UsersProvider from "@contexts/UsersContext";
@@ -13,13 +14,15 @@ interface WrapperProps {
 const Wrapper: FC<WrapperProps> = ({ children }) => {
   return (
     <AppProvider>
-      <UsersProvider>
-        <CarsProvider>
-          <Header />
-          {children}
-          <Footer />
-        </CarsProvider>
-      </UsersProvider>
+      <ErrorBoundary>
+        <UsersProvider>
+          <CarsProvider>
+            <Header />
+            {children}
+            <Footer />
+          </CarsProvider>
+        </UsersProvider>
+      </ErrorBoundary>
     </AppProvider>
   );
 };
