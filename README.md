@@ -33,7 +33,7 @@ The app's architecture promotes modularity, reusability, and maintainability of 
 Use the package manager to install the packages.
 
 ```bash
-cd cars_app
+cd cars_app/frontend
 npm install
 ```
 
