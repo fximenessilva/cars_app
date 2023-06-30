@@ -46,9 +46,32 @@ npm run dev
 
 ```
 
+## Script
 
+To use the script to add data to the json, use the following commands:
 
 ```
-npm run coverage
+cd /frontend/src/script
 
 ```
+
+* Add new user
+```
+python3 script.py --add 
+```
+
+* Delete user with id [id]
+```
+python3 script.py --delete [id] 
+```
+
+* Add car with id [car_id] to user with id [user_id]
+```
+python3 script.py --add_car [car_id] [user_id]
+```
+
+* Remove car with id [car_id] from user with id [user_id]
+```
+python3 script.py --delete_car [car_id] [user_id]
+```
+
