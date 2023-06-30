@@ -228,3 +228,9 @@ nav {
 .fa-spin {
   font-size: 16px;
 }
+
+.flex-center {
+  @include flex(column, center, center);
+  gap: 1rem;
+  height: 100vh;
+}

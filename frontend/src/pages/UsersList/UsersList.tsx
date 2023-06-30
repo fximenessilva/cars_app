@@ -23,7 +23,7 @@ const UsersList = () => {
 
   const {
     darkMode,
-    loggedUser: { isLogged },
+    loggedUser: { isLogged, user },
   } = useAppContext();
   const { state: usersState, dispatch, emailsArr } = useUsersContext();
   const { state: carsState } = useCarsContext();
@@ -104,6 +104,7 @@ const UsersList = () => {
         setEdit={setEditHandler}
         isEdit={isEdit.edit}
         typeOfData="user"
+        user={user || {}}
       />
 
       {open && (
