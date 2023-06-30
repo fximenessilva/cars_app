@@ -5,6 +5,7 @@ import { setter } from "@utils/localStorageHelpers";
 import { useUsersContext } from "@contexts/UsersContext";
 import { useCarsContext } from "@contexts/CarsContext";
 import { useAppContext } from "@contexts/AppContext";
+import { sortArrayByIdAscending } from "@utils/index";
 import PageHead from "@components/common/PageHead";
 import List from "@components/common/List";
 
@@ -70,7 +71,7 @@ const UsersList = () => {
 
   const submitHandler = (values: { email: string; name: string }) => {
     //get the id of the last item on the array
-    const lastId = users[users.length - 1].id + 1;
+    const lastId = sortArrayByIdAscending(users)?.[users.length - 1].id + 1;
     const setVals = { id: lastId, name: values.name, email: values.email };
     const newArr = [...users, setVals];
     dispatch({ type: "SET_USERS", payload: newArr });

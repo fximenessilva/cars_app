@@ -4,6 +4,7 @@ import { NAMESPACES } from "@utils/constants";
 import { setter } from "@utils/localStorageHelpers";
 import { useCarsContext } from "@contexts/CarsContext";
 import { useAppContext } from "@contexts/AppContext";
+import { sortArrayByIdAscending } from "@utils/index";
 import List from "@components/common/List";
 import PageHead from "@components/common/PageHead";
 import styles from "./carsList.module.scss";
@@ -116,7 +117,7 @@ const CarsList = () => {
 
   const createNewCar = (values: Car) => {
     //get the id of the last item on the array
-    const lastId = cars?.[cars.length - 1]?.id + 1 || 1;
+    const lastId = sortArrayByIdAscending(cars)?.[cars.length - 1]?.id + 1 || 1;
     const setVals = { id: lastId, name: values.model, brand: values.brand };
     const newArr = [...cars, setVals];
     dispatch({ type: "SET_CARS", payload: newArr });
