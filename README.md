@@ -43,7 +43,6 @@ To build the package in development mode, use the following command:
 
 ```
 npm run dev
-
 ```
 
 ## Script
@@ -52,7 +51,6 @@ To use the script to add data to the json, use the following commands:
 
 ```
 cd /frontend/src/script
-
 ```
 
 * Add new user
