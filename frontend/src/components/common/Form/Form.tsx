@@ -75,6 +75,7 @@ const Form: FC<FormProps> = ({
                 options={carsList}
                 handleChange={handleChangeDropdown}
                 value={values.favorite_cars}
+                error={errors.favorite_cars}
               />
             )}
             <div className={styles.actions}>

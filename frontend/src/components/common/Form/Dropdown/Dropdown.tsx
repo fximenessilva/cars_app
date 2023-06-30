@@ -25,7 +25,7 @@ interface MultiSelectProps {
   defaultValue?: Option | Option[];
   handleChange?: any;
   value?: Option | Option[] | null;
-  error?: string;
+  error?: any;
 }
 
 const MultiSelect: FC<MultiSelectProps> = ({
@@ -49,6 +49,8 @@ const MultiSelect: FC<MultiSelectProps> = ({
       fontFamily: "Open Sans",
       padding: "0px 4px",
       borderRadius: "8px",
+      maxHeight: "140px",
+      overflowY: "scroll",
       textAlign: "left",
       minWidth: "200px",
       textTransform: "capitalize",

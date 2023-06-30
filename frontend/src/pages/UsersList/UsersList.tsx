@@ -32,7 +32,12 @@ const UsersList = () => {
     darkMode,
     loggedUser: { isLogged, user },
   } = useAppContext();
-  const { state: usersState, dispatch, emailsArr } = useUsersContext();
+  const {
+    state: usersState,
+    dispatch,
+    emailsArr,
+    favoritesLimit,
+  } = useUsersContext();
   const { state: carsState } = useCarsContext();
 
   const { users, searchTerm, isEdit } = usersState;
@@ -156,6 +161,7 @@ const UsersList = () => {
             emailsArr={emailsArr}
             isEdit={isEdit}
             carsList={carsList}
+            favoritesLimit={favoritesLimit}
           ></UsersForm>
         </FormModal>
       )}

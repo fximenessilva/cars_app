@@ -35,6 +35,7 @@ interface UsersContextProps {
   emailsArr: string[];
   setInitialUsers: () => void;
   setFavorite: (carId: number, userFavorites: number[], user: any) => void;
+  favoritesLimit: number;
 }
 
 const UsersContext = createContext<UsersContextProps | undefined>(undefined);
@@ -163,7 +164,14 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
 
   return (
     <UsersContext.Provider
-      value={{ state, dispatch, emailsArr, setFavorite, setInitialUsers }}
+      value={{
+        state,
+        dispatch,
+        emailsArr,
+        setFavorite,
+        setInitialUsers,
+        favoritesLimit: FAVORITES_LIMIT,
+      }}
     >
       {children}
     </UsersContext.Provider>
@@ -179,6 +187,7 @@ const useUsersContext = (): UsersContextProps => {
       setFavorite: () => {},
       setInitialUsers: () => {},
       emailsArr: [],
+      favoritesLimit: FAVORITES_LIMIT,
     };
   }
   return context;

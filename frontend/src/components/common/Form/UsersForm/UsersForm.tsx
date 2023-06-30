@@ -11,6 +11,7 @@ interface FormProps {
   emailsArr: string[];
   isEdit: any;
   carsList: { value: number; label: string }[];
+  favoritesLimit: number;
 }
 
 const UsersForm: FC<FormProps> = ({
@@ -38,12 +39,21 @@ const UsersForm: FC<FormProps> = ({
     return !modelsIncludeValue;
   };
 
+  const favoriteCarsLimit = (value: any) => {
+    return !(value && value.length > 3);
+  };
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("*Name is required"),
     email: Yup.string()
       .required("*Email is required")
       .test("email", "*Email already exists", categoryEmail)
       .email("*Please choose a valid email address"),
+    favorite_cars: Yup.array().test(
+      "favorite_cars",
+      "*You can't add more than 3 cars",
+      favoriteCarsLimit
+    ),
   });
 
   const submitHandler = (values: any) => {
