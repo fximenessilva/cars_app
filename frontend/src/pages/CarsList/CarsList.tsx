@@ -116,7 +116,7 @@ const CarsList = () => {
   };
 
   const createNewCar = (values: Car) => {
-    //get the id of the last item on the array
+    //get the id of the last item on the array after sorting it by id ascending
     const lastId = sortArrayByIdAscending(cars)?.[cars.length - 1]?.id + 1 || 1;
     const setVals = { id: lastId, name: values.model, brand: values.brand };
     const newArr = [...cars, setVals];

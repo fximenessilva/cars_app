@@ -54,6 +54,7 @@ const CarsForm: FC<FormProps> = ({
       styles={styles}
       onClose={onClose}
       theme={theme}
+      page="cars"
     />
   );
 };

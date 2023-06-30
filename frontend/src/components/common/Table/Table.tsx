@@ -11,7 +11,7 @@ interface TableProps {
     name?: string;
     email?: string;
     brand?: string;
-    favorite_cars?: string[];
+    favorite_cars?: any[];
     [key: string]: any;
   }[];
   setEdit: (values: any) => void;
@@ -32,16 +32,6 @@ const Table: FC<TableProps> = ({
   const { setFavorite } = useUsersContext();
   const { deleteCar } = useCarsContext();
 
-  const orderedData = useMemo(
-    () =>
-      data.sort(
-        (a, b) =>
-          (a.brand ?? "").localeCompare(b.brand ?? "") ||
-          (a.name ?? "").localeCompare(b.name ?? "")
-      ),
-    [data]
-  );
-
   const isCarsTable = typeOfData === "car";
 
   return (
@@ -60,7 +50,7 @@ const Table: FC<TableProps> = ({
           </tr>
         </thead>
         <tbody>
-          {orderedData.map((row, index) => (
+          {data.map((row, index) => (
             <tr key={index} className={styles.tr}>
               {columns.map((column, index) => {
                 const isList = typeof row[column] === "object";
@@ -70,7 +60,20 @@ const Table: FC<TableProps> = ({
                     {isLast && user?.id && (
                       <div className={styles.actions}>
                         <span
-                          onClick={() => setEdit({ values: row, edit: true })}
+                          onClick={() =>
+                            setEdit({
+                              values: {
+                                ...row,
+                                favorite_cars: row.favorite_cars?.map(
+                                  ({ id, name, brand }) => ({
+                                    value: id,
+                                    label: `${brand} ${name}`,
+                                  })
+                                ),
+                              },
+                              edit: true,
+                            })
+                          }
                           className={styles.edit}
                         >
                           Edit
@@ -109,11 +112,16 @@ const Table: FC<TableProps> = ({
                       <div>{row[column]}</div>
                     ) : (
                       <ul>
-                        {row[column].map((el: string, i: number) => (
-                          <li className={styles.car} key={`${el}-${i}`}>
-                            {el}
-                          </li>
-                        ))}
+                        {row[column].map(
+                          (
+                            el: { brand: string; name: string; id: number },
+                            i: number
+                          ) => (
+                            <li className={styles.car} key={el.id}>
+                              {el.brand} {el.name}
+                            </li>
+                          )
+                        )}
                       </ul>
                     )}
                   </td>
