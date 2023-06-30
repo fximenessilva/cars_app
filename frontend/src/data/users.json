@@ -17,18 +17,6 @@
       "name": "Pedro",
       "email": "pedro@akkodis.com",
       "favorite_cars": [1, 2]
-    },
-    {
-      "id": 4,
-      "name": "Ze",
-      "email": "ze@akkodis.com",
-      "favorite_cars": [5]
-    },
-    {
-      "id": 5,
-      "name": "Albert",
-      "email": "albert@akkodis.com",
-      "favorite_cars": [5]
     }
   ]
 }

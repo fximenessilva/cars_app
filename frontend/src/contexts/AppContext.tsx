@@ -10,7 +10,7 @@ import {
 } from "react";
 
 import { NAMESPACES } from "@utils/constants";
-import { setter, getter } from "@utils/localStorageHelpers";
+import { setter, getter, remover } from "@utils/localStorageHelpers";
 
 interface User {
   name: string;
@@ -54,6 +54,7 @@ export const AppContext = createContext<{
   setBtnContent: Dispatch<SetStateAction<any>>;
   snackbarProps: any;
   setSnackbarProps: Dispatch<SetStateAction<any>>;
+  setLoggedUserToInitial: any;
 }>({
   darkMode: false,
   setDarkMode: () => {},
@@ -69,6 +70,7 @@ export const AppContext = createContext<{
   setBtnContent: () => {},
   snackbarProps: SNACKBAR_INITIAL_STATE,
   setSnackbarProps: () => {},
+  setLoggedUserToInitial: () => {},
 });
 
 const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -98,6 +100,13 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, []);
 
+  const setLoggedUserToInitial = () => {
+    setLoggedUser({ user: { ...USER_INITIAL_STATE }, isLogged: false });
+    remover(NAMESPACES.user);
+    setBtnContent({ primary: <>Log in</>, secondary: <>Initial data</> });
+  };
+
+  console.log(btnContent);
   const appClassName = `app ${darkMode ? "dark-mode" : "light-mode"}`;
   return (
     <div className={appClassName}>
@@ -114,6 +123,7 @@ const AppProvider: FC<{ children: ReactNode }> = ({ children }) => {
           userInitialState: USER_INITIAL_STATE,
           snackbarProps,
           setSnackbarProps,
+          setLoggedUserToInitial,
         }}
       >
         {children}
