@@ -15,7 +15,7 @@ The AutoConnect App follows a logical directory structure that promotes organiza
   * **styles**: Contains global stylesheets for styling the app.
   * **utils**: Holds utility functions, helper files or constants used throughout the app.
   * **data**: Holds data in JSON format to serve the app.
-  * **data**: Contains a script that allow to mutate the data.
+  * **script**: Contains a script that allow to mutate the data.
 
 
 ## Architecture
