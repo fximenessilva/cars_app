@@ -47,7 +47,7 @@ npm run dev
 
 ## Script
 
-To use the script to add data to the json, use the following commands:
+To use the script to add or remove data from the json, use the following commands:
 
 ```
 cd /frontend/src/script
