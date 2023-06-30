@@ -2,11 +2,6 @@
   "coches": [
     { "id": 1, "name": "Ateca", "brand": "SEAT" },
     { "id": 2, "name": "Formentor", "brand": "Cupra" },
-    { "id": 3, "name": "Puro Sangue", "brand": "Ferrari" },
-    { "id": 4, "name": "Passat", "brand": "VW" },
-    { "id": 5, "name": "Panda", "brand": "Fiat" },
-    { "id": 6, "name": "X-Type", "brand": "Jaguar" },
-    { "id": 7, "name": "Polo", "brand": "VW" },
-    { "id": 8, "name": "A3", "brand": "Audi" }
+    { "id": 3, "name": "Arteon", "brand": "VW" }
   ]
 }

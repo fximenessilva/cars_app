@@ -33,6 +33,7 @@ const Home = () => {
     setBtnContent,
     snackbarProps,
     setSnackbarProps,
+    setLoggedUserToInitial,
   } = useAppContext();
 
   const { emailsArr, state, setInitialUsers } = useUsersContext();
@@ -81,8 +82,7 @@ const Home = () => {
   const onLogOutHandler = () => {
     setLoading({ ...loading, primary: true });
     setTimeout(() => {
-      setLoggedUser({ user: { ...userInitialState }, isLogged: false });
-      remover(NAMESPACES.user);
+      setLoggedUserToInitial();
       setLoading({ ...loading, primary: false });
       setBtnContent({ ...btnContent, primary: <>Log in</> });
     }, FAKE_API_CALLS_MS);
@@ -93,8 +93,9 @@ const Home = () => {
     setTimeout(() => {
       setInitialUsers();
       setInitialCars();
+      setLoggedUserToInitial();
       setLoading({ ...loading, secondary: false });
-      setBtnContent({ ...btnContent, secondary: <>Initial data</> });
+      setBtnContent({ primary: <>Log in</>, secondary: <>Initial data</> });
 
       setSnackbarProps({
         ...snackbarProps,

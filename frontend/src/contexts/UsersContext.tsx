@@ -103,7 +103,7 @@ const UsersProvider: FC<UsersProviderProps> = ({ children }) => {
   }, []);
 
   const getUsersEmails = (list: any) =>
-    list.map(({ email }: any) => email.toLowerCase());
+    list.length && list.map(({ email }: any) => email.toLowerCase());
 
   const emailsArr = state.users.length
     ? getUsersEmails(state.users)

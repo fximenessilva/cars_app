@@ -1,5 +1,5 @@
 const NAMESPACES = {
-  theme: "auto_connect-theme",
+  theme: "auto_connect-theme-dark",
   cars: "carsList",
   users: "usersList",
   user: "logged_user",

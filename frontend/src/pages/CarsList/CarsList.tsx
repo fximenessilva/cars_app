@@ -115,13 +115,17 @@ const CarsList = () => {
     }
   };
 
+  const updateCarsState = (list: any) => {
+    dispatch({ type: "SET_CARS", payload: list });
+    setter(NAMESPACES.cars, list);
+  };
+
   const createNewCar = (values: Car) => {
     //get the id of the last item on the array after sorting it by id ascending
     const lastId = sortArrayByIdAscending(cars)?.[cars.length - 1]?.id + 1 || 1;
     const setVals = { id: lastId, name: values.model, brand: values.brand };
     const newArr = [...cars, setVals];
-    dispatch({ type: "SET_CARS", payload: newArr });
-    setter(NAMESPACES.cars, newArr);
+    updateCarsState(newArr);
   };
 
   const updateCar = (values: Car) => {
@@ -132,8 +136,7 @@ const CarsList = () => {
       brand: values.brand,
     };
     const newArr = [setVals, ...filteredList];
-    dispatch({ type: "SET_CARS", payload: newArr });
-    setter(NAMESPACES.cars, newArr);
+    updateCarsState(newArr);
   };
 
   const submitHandler = (values: Car) => {

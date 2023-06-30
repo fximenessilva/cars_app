@@ -19,7 +19,7 @@ const UsersForm = lazy(() =>
 );
 
 interface User {
-  id?: number;
+  id?: number | undefined;
   email: string;
   name: string;
   favorite_cars: { value: number }[];
@@ -31,6 +31,8 @@ const UsersList = () => {
   const {
     darkMode,
     loggedUser: { isLogged, user },
+    loggedUser,
+    setLoggedUser,
   } = useAppContext();
   const {
     state: usersState,
@@ -94,7 +96,8 @@ const UsersList = () => {
 
   const createNewUser = (values: User) => {
     //get the id of the last item on the array after sorting it by id ascending
-    const lastId = sortArrayByIdAscending(users)?.[users.length - 1].id + 1;
+    const lastId =
+      sortArrayByIdAscending(users)?.[users.length - 1].id + 1 || 1;
     const setVals = {
       id: lastId,
       ...values,
@@ -113,6 +116,10 @@ const UsersList = () => {
     };
     const newArr = [setVals, ...filteredList];
     updateUsersState(newArr);
+    if (values.id === user.id) {
+      setter(NAMESPACES.user, { user: setVals });
+      setLoggedUser({ ...loggedUser, user: setVals });
+    }
   };
 
   const submitHandler = (values: User) => {
