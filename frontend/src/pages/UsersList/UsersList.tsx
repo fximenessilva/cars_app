@@ -18,6 +18,13 @@ const UsersForm = lazy(() =>
   }))
 );
 
+interface User {
+  id?: number;
+  email: string;
+  name: string;
+  favorite_cars: { value: number }[];
+}
+
 const UsersList = () => {
   const [open, setOpen] = useState(false);
 
@@ -31,18 +38,24 @@ const UsersList = () => {
   const { users, searchTerm, isEdit } = usersState;
   const { cars } = carsState;
 
+  const carsList = useMemo(
+    () =>
+      cars?.map(({ id, brand, name }) => ({
+        value: id,
+        label: `${brand} ${name}`,
+      })),
+    [cars]
+  );
+
   const theme = darkMode ? "dark" : "light";
 
   const data = users.map(({ favorite_cars, id, ...props }) => ({
-    favorite_cars: cars
-      .filter(({ id }) => favorite_cars.includes(id))
-      .map(({ brand, name }) => `${brand} ${name}`),
+    favorite_cars: cars.filter(({ id }) => favorite_cars.includes(id)),
+    id,
     ...props,
   }));
 
-  const columns = users.length
-    ? [...Object.keys(users[0]).filter((el) => el !== "id"), " "]
-    : [];
+  const columns = users.length ? [...Object.keys(users[0]), " "] : [];
 
   const wrapperClassName = `${styles.wrapper} container`;
 
@@ -62,20 +75,47 @@ const UsersList = () => {
     [searchTerm, users]
   );
 
-  const closeHandler = () => setOpen(false);
+  const closeHandler = () => {
+    setOpen(false);
+    if (isEdit.edit) {
+      dispatch({ type: "SET_EDIT", payload: { edit: false, values: {} } });
+    }
+  };
 
-  // falta implementar
-  const createNewCar = (values: any) => {};
+  const updateUsersState = (list: any) => {
+    dispatch({ type: "SET_USERS", payload: list });
+    setter(NAMESPACES.users, list);
+  };
 
-  const updateCar = (values: any) => {};
-
-  const submitHandler = (values: { email: string; name: string }) => {
-    //get the id of the last item on the array
+  const createNewUser = (values: User) => {
+    //get the id of the last item on the array after sorting it by id ascending
     const lastId = sortArrayByIdAscending(users)?.[users.length - 1].id + 1;
-    const setVals = { id: lastId, name: values.name, email: values.email };
+    const setVals = {
+      id: lastId,
+      ...values,
+      favorite_cars: values.favorite_cars.map(({ value }) => value),
+    };
     const newArr = [...users, setVals];
-    dispatch({ type: "SET_USERS", payload: newArr });
-    setter(NAMESPACES.users, newArr);
+
+    updateUsersState(newArr);
+  };
+
+  const updateUser = (values: User) => {
+    const filteredList = users.filter((el) => el.id !== values.id);
+    const setVals = {
+      ...values,
+      favorite_cars: values.favorite_cars.map(({ value }) => value),
+    };
+    const newArr = [setVals, ...filteredList];
+    updateUsersState(newArr);
+  };
+
+  const submitHandler = (values: User) => {
+    if (!isEdit.edit) {
+      createNewUser(values);
+    } else {
+      updateUser(values);
+    }
   };
 
   const onTextChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -114,6 +154,8 @@ const UsersList = () => {
             onClose={closeHandler}
             theme={theme}
             emailsArr={emailsArr}
+            isEdit={isEdit}
+            carsList={carsList}
           ></UsersForm>
         </FormModal>
       )}
