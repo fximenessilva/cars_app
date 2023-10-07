@@ -20,7 +20,7 @@ The AutoConnect App follows a logical directory structure that promotes organiza
 
 ## Architecture
 
-The Podcaster app follows a component-based architecture using the following technologies:
+The AutoConnect app follows a component-based architecture using the following technologies:
 
 * React: A JavaScript library for building user interfaces.
 * Context API: A built-in feature in React for managing global state and data sharing between components.
